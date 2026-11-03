@@ -53,7 +53,7 @@
     <main class="max-w-md mx-auto w-full p-4 flex-grow flex flex-col justify-center">
 
         <!-- MÀN HÌNH 1: CHÀO MỪNG -->
-        <div id="screen-welcome" class="bg-slate-850 bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-6 text-center martial-glow backdrop-blur-md">
+        <div id="screen-welcome" class="bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-6 text-center martial-glow backdrop-blur-md">
             <div class="w-20 h-20 bg-gradient-to-br from-vovinamBlue to-vovinamDarkBlue rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl border-2 border-vovinamGold transform rotate-3 hover:rotate-0 transition-transform duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-vovinamGold animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -66,7 +66,7 @@
             </button>
         </div>
 
-        <!-- MÀN HÌNH 2: GAME PHẢN XẠ (5 LƯỢT RỘNG KHU VỰC) -->
+        <!-- MÀN HÌNH 2: GAME PHẢN XẠ -->
         <div id="screen-reflex" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
             <div class="flex justify-between items-center mb-3 text-sm">
                 <span class="font-extrabold text-vovinamGold flex items-center gap-1">⚡ PHẦN 1: TỐC ĐỘ PHẢN XẠ</span>
@@ -74,7 +74,6 @@
             </div>
             <p class="text-xs text-slate-300 mb-3">Chạm thật nhanh vào <span class="text-vovinamGold font-bold">Bao Đấm Năng Lượng</span> ngay khi xuất hiện!</p>
             
-            <!-- KHU VỰC CHƠI RỘNG RÃI -->
             <div id="reflex-arena" class="relative w-full h-[320px] bg-slate-950/80 rounded-xl border-2 border-dashed border-vovinamBlue/40 overflow-hidden cursor-crosshair flex items-center justify-center shadow-inner">
                 <div id="reflex-message" class="text-slate-400 text-xs font-semibold pointer-events-none px-4 text-center">Bấm nút bên dưới để mở màn thử thách phản xạ!</div>
                 <div id="reflex-target" onclick="hitTarget()" class="hidden absolute w-20 h-20 bg-gradient-to-br from-red-600 via-vovinamBlue to-vovinamDarkBlue rounded-full shadow-2xl border-4 border-vovinamGold flex items-center justify-center cursor-pointer transform hover:scale-110 active:scale-95 transition-transform">
@@ -94,9 +93,7 @@
                 <span id="quiz-progress" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Câu: 1/5</span>
             </div>
             <h3 id="quiz-question" class="text-sm font-bold mb-4 text-slate-100 min-h-[50px] leading-snug">Đang tải câu hỏi...</h3>
-            <div id="quiz-options" class="space-y-2.5">
-                <!-- Các lựa chọn được render qua JS -->
-            </div>
+            <div id="quiz-options" class="space-y-2.5"></div>
             <div id="quiz-feedback" class="mt-3 text-xs font-semibold text-center min-h-[24px]"></div>
         </div>
 
@@ -108,7 +105,7 @@
                 </svg>
             </div>
             <h2 class="text-lg font-black text-vovinamGold mb-1 tracking-wider uppercase">HOÀN THÀNH XUẤT SẮC!</h2>
-            <p class="text-[11px] text-slate-300 mb-3">Bạn đã vượt qua các bài kiểm tra của CLB Vovinam FSC x Wave[cite: 1].</p>
+            <p class="text-[11px] text-slate-300 mb-3">Bạn đã vượt qua các bài kiểm tra của CLB Vovinam FSC x Wave.</p>
             
             <div class="bg-slate-950/80 p-3 rounded-xl border border-vovinamBlue/40 text-left text-xs space-y-2 mb-4 shadow-inner">
                 <div class="flex justify-between items-center">
@@ -130,16 +127,16 @@
                 <!-- QR 1: Đăng ký thành viên -->
                 <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
                     <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=DIEN_LINK_GOOGLE_FORM_CUA_BAN_VAI_DAY" alt="QR Đăng ký" class="w-24 h-24 rounded object-contain">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://forms.gle/YOUR_GOOGLE_FORM_LINK" alt="QR Đăng ký" class="w-24 h-24 rounded object-contain">
                     </div>
                     <span class="text-[11px] font-bold text-vovinamGold">📝 ĐĂNG KÝ CLB</span>
                     <span class="text-[9px] text-slate-400">Quét để điền Form</span>
                 </div>
 
-                <!-- QR 2: Fanpage CLB -->
+                <!-- QR 2: Fanpage CLB (Đã gắn link chính thức) -->
                 <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
                     <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&https://www.facebook.com/profile.php?id=61596077883921" alt="QR Fanpage" class="w-24 h-24 rounded object-contain">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://www.facebook.com/people/FSC-x-Wave/61596077883921/" alt="QR Fanpage" class="w-24 h-24 rounded object-contain">
                     </div>
                     <span class="text-[11px] font-bold text-blue-400">🌐 FANPAGE CLB</span>
                     <span class="text-[9px] text-slate-400">Quét theo dõi Page</span>
@@ -155,7 +152,7 @@
 
     <!-- FOOTER -->
     <footer class="text-center py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-950/50">
-        FSC x Wave • F5 Night: Five Worlds © 2026[cite: 1]
+        FSC x Wave • F5 Night: Five Worlds © 2026
     </footer>
 
     <!-- JAVASCRIPT LOGIC -->
