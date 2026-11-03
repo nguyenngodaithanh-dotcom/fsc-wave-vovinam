@@ -11,27 +11,41 @@
             theme: {
                 extend: {
                     colors: {
-                        vovinamBlue: '#0055A5',
+                        vovinamBlue: '#004080',
+                        vovinamDarkBlue: '#00264d',
                         vovinamGold: '#FFD700',
+                        vovinamRed: '#DC2626',
                     }
                 }
             }
         }
     </script>
     <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+        }
+        .martial-glow {
+            box-shadow: 0 0 25px rgba(0, 85, 165, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.1);
+        }
+        .gold-glow {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-vovinamGold selection:text-slate-900">
 
-    <!-- HEADER -->
-    <header class="bg-vovinamBlue border-b border-blue-600 shadow-lg py-4 px-6 text-center">
-        <div class="max-w-md mx-auto">
-            <span class="bg-vovinamGold text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">F5 Night: Five Worlds</span>
-            <h1 class="text-2xl font-extrabold mt-2 tracking-tight">FSC x WAVE | Vovinam Club</h1>
-            <p class="text-xs text-blue-100 mt-1">Thử Thách Phản Xạ Võ Sĩ & Trí Tuệ Võ Đạo</p>
+    <!-- HEADER ĐẬM CHẤT VÕ ĐẠO -->
+    <header class="bg-gradient-to-r from-vovinamDarkBlue via-vovinamBlue to-vovinamDarkBlue border-b-2 border-vovinamGold shadow-2xl py-5 px-6 text-center relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 w-32 h-32 bg-vovinamGold/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        
+        <div class="max-w-md mx-auto relative z-10">
+            <span class="bg-vovinamGold text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-widest shadow-md">F5 Night: Five Worlds</span>
+            <h1 class="text-2xl font-black mt-2.5 tracking-tight text-white drop-shadow-md">FSC x WAVE <span class="text-vovinamGold">VOVINAM</span></h1>
+            <p class="text-xs text-blue-200 mt-1 font-medium tracking-wide">Võ Đạo Sáng Tương Lai • Thử Thách Bản Lĩnh</p>
         </div>
     </header>
 
@@ -39,88 +53,100 @@
     <main class="max-w-md mx-auto w-full p-4 flex-grow flex flex-col justify-center">
 
         <!-- MÀN HÌNH 1: CHÀO MỪNG -->
-        <div id="screen-welcome" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center shadow-xl">
-            <div class="w-16 h-16 bg-vovinamBlue rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-vovinamGold">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-vovinamGold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        <div id="screen-welcome" class="bg-slate-850 bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-6 text-center martial-glow backdrop-blur-md">
+            <div class="w-20 h-20 bg-gradient-to-br from-vovinamBlue to-vovinamDarkBlue rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl border-2 border-vovinamGold transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-vovinamGold animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
             </div>
-            <h2 class="text-xl font-bold mb-2">Thử Thách Club Day</h2>
-            <p class="text-sm text-slate-300 mb-6">Hoàn thành 2 thử thách: <span class="text-vovinamGold font-semibold">Phản xạ Võ sĩ (5 lượt)</span> & <span class="text-vovinamGold font-semibold">Trắc nghiệm Võ đạo</span> để nhận dấu xác nhận Club Passport!</p>
-            <button onclick="startChallenge()" class="w-full bg-vovinamGold hover:bg-yellow-400 text-slate-900 font-extxl font-bold py-3 px-6 rounded-xl transition duration-200 shadow-lg transform active:scale-95">
-                BẮT ĐẦU NGAY 🚀
+            <h2 class="text-2xl font-black mb-2 text-white tracking-wide">THỬ THÁCH CLUB DAY</h2>
+            <p class="text-xs text-slate-300 mb-6 leading-relaxed">Chinh phục 2 cột mốc: <span class="text-vovinamGold font-bold">Phản xạ Võ sĩ (5 lượt)</span> & <span class="text-vovinamGold font-bold">Trí tuệ Võ đạo</span> để nhận đặc quyền đóng dấu Club Passport!</p>
+            <button onclick="startChallenge()" class="w-full bg-gradient-to-r from-yellow-500 via-vovinamGold to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-950 font-black py-3.5 px-6 rounded-xl transition duration-200 shadow-xl gold-glow transform active:scale-95 tracking-wider text-sm">
+                CHIẾN NGAY 🥋
             </button>
         </div>
 
         <!-- MÀN HÌNH 2: GAME PHẢN XẠ (5 LƯỢT RỘNG KHU VỰC) -->
-        <div id="screen-reflex" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 text-center shadow-xl">
+        <div id="screen-reflex" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
             <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-bold text-vovinamGold">PHẦN 1: TỐC ĐỘ PHẢN XẠ</span>
-                <span id="reflex-round" class="bg-slate-700 px-2.5 py-1 rounded-md text-xs font-semibold">Lượt: 1/5</span>
+                <span class="font-extrabold text-vovinamGold flex items-center gap-1">⚡ PHẦN 1: TỐC ĐỘ PHẢN XẠ</span>
+                <span id="reflex-round" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Lượt: 1/5</span>
             </div>
-            <p class="text-xs text-slate-300 mb-4">Chạm thật nhanh vào mục tiêu <span class="text-vovinamGold font-bold">Bao Đấm</span> khi nó xuất hiện ngẫu nhiên!</p>
+            <p class="text-xs text-slate-300 mb-3">Chạm thật nhanh vào <span class="text-vovinamGold font-bold">Bao Đấm Năng Lượng</span> ngay khi xuất hiện!</p>
             
             <!-- KHU VỰC CHƠI RỘNG RÃI -->
-            <div id="reflex-arena" class="relative w-full h-[320px] bg-slate-900 rounded-xl border-2 border-dashed border-slate-700 overflow-hidden cursor-crosshair flex items-center justify-center">
-                <div id="reflex-message" class="text-slate-400 text-sm font-medium pointer-events-none">Nhấn nút bên dưới để bắt đầu lượt phản xạ!</div>
-                <div id="reflex-target" onclick="hitTarget()" class="hidden absolute w-20 h-20 bg-gradient-to-br from-red-500 to-vovinamBlue rounded-full shadow-lg border-4 border-vovinamGold flex items-center justify-center cursor-pointer transform hover:scale-105 active:scale-95 transition-transform">
-                    <span class="text-xs font-extrabold text-white">💥 ĐẤM!</span>
+            <div id="reflex-arena" class="relative w-full h-[320px] bg-slate-950/80 rounded-xl border-2 border-dashed border-vovinamBlue/40 overflow-hidden cursor-crosshair flex items-center justify-center shadow-inner">
+                <div id="reflex-message" class="text-slate-400 text-xs font-semibold pointer-events-none px-4 text-center">Bấm nút bên dưới để mở màn thử thách phản xạ!</div>
+                <div id="reflex-target" onclick="hitTarget()" class="hidden absolute w-20 h-20 bg-gradient-to-br from-red-600 via-vovinamBlue to-vovinamDarkBlue rounded-full shadow-2xl border-4 border-vovinamGold flex items-center justify-center cursor-pointer transform hover:scale-110 active:scale-95 transition-transform">
+                    <span class="text-xs font-black text-white tracking-tighter drop-shadow">💥 ĐẤM!</span>
                 </div>
             </div>
 
-            <button id="btn-start-reflex" onclick="startReflexGame()" class="mt-4 w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-4 rounded-xl transition duration-200 shadow-md">
-                Sẵn sàng - Bắt đầu lượt này!
+            <button id="btn-start-reflex" onclick="startReflexGame()" class="mt-4 w-full bg-gradient-to-r from-blue-600 to-vovinamBlue hover:from-blue-500 hover:to-blue-600 text-white font-bold py-3 px-4 rounded-xl transition duration-200 shadow-lg border border-blue-400/30 text-xs tracking-wider">
+                SẴN SÀNG - XUẤT CHIÊU!
             </button>
         </div>
 
         <!-- MÀN HÌNH 3: TRẮC NGHIỆM VÕ ĐẠO -->
-        <div id="screen-quiz" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-xl">
+        <div id="screen-quiz" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 martial-glow backdrop-blur-md">
             <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-bold text-vovinamGold">PHẦN 2: TRÍ TUỆ VÕ ĐẠO</span>
-                <span id="quiz-progress" class="bg-slate-700 px-2.5 py-1 rounded-md text-xs font-semibold">Câu: 1/5</span>
+                <span class="font-extrabold text-vovinamGold flex items-center gap-1">📜 PHẦN 2: TRÍ TUỆ VÕ ĐẠO</span>
+                <span id="quiz-progress" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Câu: 1/5</span>
             </div>
-            <h3 id="quiz-question" class="text-base font-semibold mb-4 text-slate-100 min-h-[48px]">Đang tải câu hỏi...</h3>
+            <h3 id="quiz-question" class="text-sm font-bold mb-4 text-slate-100 min-h-[50px] leading-snug">Đang tải câu hỏi...</h3>
             <div id="quiz-options" class="space-y-2.5">
-                <!-- Các lựa chọn sẽ được render bằng JS -->
+                <!-- Các lựa chọn được render qua JS -->
             </div>
-            <div id="quiz-feedback" class="mt-3 text-xs font-medium text-center min-h-[20px]"></div>
+            <div id="quiz-feedback" class="mt-3 text-xs font-semibold text-center min-h-[24px]"></div>
         </div>
 
-        <!-- MÀN HÌNH 4: KẾT QUẢ & CLUB PASSPORT -->
-        <div id="screen-result" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-5 text-center shadow-xl">
-            <div class="w-14 h-14 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
+        <!-- MÀN HÌNH 4: KẾT QUẢ & CLUB PASSPORT + 2 MÃ QR -->
+        <div id="screen-result" class="hidden bg-slate-800/90 border-2 border-vovinamGold/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
+            <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-vovinamGold">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h2 class="text-xl font-extrabold text-vovinamGold mb-1">XUẤT SẮC HOÀN THÀNH!</h2>
-            <p class="text-xs text-slate-300 mb-4">Bạn đã hoàn thành thử thách của CLB Vovinam FSC x Wave.</p>
+            <h2 class="text-lg font-black text-vovinamGold mb-1 tracking-wider uppercase">HOÀN THÀNH XUẤT SẮC!</h2>
+            <p class="text-[11px] text-slate-300 mb-3">Bạn đã vượt qua các bài kiểm tra của CLB Vovinam FSC x Wave[cite: 1].</p>
             
-            <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-700 text-left text-xs space-y-2 mb-4">
-                <div class="flex justify-between">
-                    <span class="text-slate-400">Tốc độ phản xạ TB (5 lượt):</span>
+            <div class="bg-slate-950/80 p-3 rounded-xl border border-vovinamBlue/40 text-left text-xs space-y-2 mb-4 shadow-inner">
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Tốc độ phản xạ trung bình:</span>
                     <span id="res-reflex" class="font-bold text-vovinamGold">0 ms</span>
                 </div>
-                <div class="flex justify-between">
-                    <span class="text-slate-400">Trắc nghiệm Võ đạo:</span>
-                    <span id="res-quiz" class="font-bold text-emerald-400">0/5 câu đúng</span>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Đúng trắc nghiệm Võ đạo:</span>
+                    <span id="res-quiz" class="font-bold text-emerald-400">0/5 câu</span>
                 </div>
-                <div class="flex justify-between border-t border-slate-800 pt-2">
+                <div class="flex justify-between items-center border-t border-slate-800 pt-2">
                     <span class="text-slate-400">Trạng thái Passport:</span>
-                    <span class="font-bold text-vovinamGold">✔ ĐÃ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU</span>
+                    <span class="font-extrabold text-vovinamGold animate-pulse">✔ ĐÃ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU</span>
                 </div>
             </div>
 
-            <!-- KHU VỰC QR ĐĂNG KÝ -->
-            <div class="bg-white p-3 rounded-xl inline-block mb-3 shadow-inner">
-                <!-- KHU VỰC QR ĐĂNG KÝ (ĐOẠN MỚI) -->
-                    <div class="bg-white p-3 rounded-xl inline-block mb-3 shadow-inner">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=DIEN_LINK_GOOGLE_FORM_CUA_BAN_VAI_DAY" alt="QR Đăng ký CLB" class="w-32 h-32 mx-auto rounded">
+            <!-- KHU VỰC 2 MÃ QR (ĐĂNG KÝ & FANPAGE) -->
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <!-- QR 1: Đăng ký thành viên -->
+                <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
+                    <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=DIEN_LINK_GOOGLE_FORM_CUA_BAN_VAI_DAY" alt="QR Đăng ký" class="w-24 h-24 rounded object-contain">
                     </div>
-            </div>
-            <p class="text-xs text-slate-300 mb-4">Quét mã QR trên để chính thức gia nhập <span class="font-bold text-vovinamGold">FSC x Wave</span>!</p>
+                    <span class="text-[11px] font-bold text-vovinamGold">📝 ĐĂNG KÝ CLB</span>
+                    <span class="text-[9px] text-slate-400">Quét để điền Form</span>
+                </div>
 
-            <button onclick="location.reload()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 px-4 rounded-xl text-xs transition duration-200">
+                <!-- QR 2: Fanpage CLB -->
+                <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
+                    <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&https://www.facebook.com/profile.php?id=61596077883921" alt="QR Fanpage" class="w-24 h-24 rounded object-contain">
+                    </div>
+                    <span class="text-[11px] font-bold text-blue-400">🌐 FANPAGE CLB</span>
+                    <span class="text-[9px] text-slate-400">Quét theo dõi Page</span>
+                </div>
+            </div>
+
+            <button onclick="location.reload()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 px-4 rounded-xl text-xs transition duration-200 border border-slate-600 shadow-md">
                 Chơi lại từ đầu ⟳
             </button>
         </div>
@@ -128,13 +154,12 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="text-center py-3 text-xs text-slate-500 border-t border-slate-800">
-        FSC x Wave • F5 Night: Five Worlds © 2026
+    <footer class="text-center py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-950/50">
+        FSC x Wave • F5 Night: Five Worlds © 2026[cite: 1]
     </footer>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- NGÂN HÀNG CÂU HỎI VÕ ĐẠO (10 CÂU, LẤY NGẪU NHIÊN 5 CÂU) ---
         const questionBank = [
             {
                 q: "Bài quyền nhập môn đầu tiên mà môn sinh Vovinam được tập luyện là gì?",
@@ -146,7 +171,7 @@
                 q: "Vovinam (Việt Võ Đạo) do võ sư nào sáng lập?",
                 options: ["Võ sư Nguyễn Lộc", "Võ sư Sáng Sáng", "Võ sư Lê Sáng", "Võ sư Trần Đế"],
                 answer: 0,
-                explanation: "Đúng vậy! Vovinam do cố võ sư Nguyễn Lộc sáng lập năm 1938"
+                explanation: "Đúng vậy! Vovinam do cố võ sư Nguyễn Lộc sáng lập năm 1938."
             },
             {
                 q: "Màu sắc truyền thống đặc trưng của võ phục Vovinam là gì?",
@@ -202,7 +227,6 @@
         let currentQuizIndex = 0;
         let quizScore = 0;
 
-        // Biến game phản xạ (5 lượt)
         let currentReflexRound = 1;
         let totalReflexTime = 0;
         let startTime = 0;
@@ -216,7 +240,6 @@
             totalReflexTime = 0;
         }
 
-        // --- LOGIC PHẢN XẠ 5 LƯỢT ---
         function startReflexGame() {
             const btnStart = document.getElementById('btn-start-reflex');
             const msg = document.getElementById('reflex-message');
@@ -224,14 +247,12 @@
             const arena = document.getElementById('reflex-arena');
 
             btnStart.classList.add('hidden');
-            msg.textContent = "Chuẩn bị... Xuất hiện ngẫu nhiên!";
+            msg.textContent = "Tập trung... Bao đấm sắp xuất hiện!";
             target.classList.add('hidden');
 
-            // Random thời gian chờ từ 1 đến 2.5 giây
-            const randomDelay = Math.random() * 1500 + 2000;
+            const randomDelay = Math.random() * 1500 + 1500;
 
             timeoutId = setTimeout(() => {
-                // Random vị trí bên trong arena (giữ padding an toàn)
                 const maxX = arena.clientWidth - 80;
                 const maxY = arena.clientHeight - 80;
                 const randomX = Math.floor(Math.random() * Math.max(10, maxX));
@@ -267,7 +288,6 @@
                     startReflexGame();
                 }, 1000);
             } else {
-                // Hoàn thành 5 lượt phản xạ -> Chuyển sang Quiz
                 const avgTime = Math.round(totalReflexTime / 5);
                 window.finalReflexAvg = avgTime;
                 
@@ -277,9 +297,7 @@
             }
         }
 
-        // --- LOGIC TRẮC NGHIỆM VÕ ĐẠO ---
         function initQuiz() {
-            // Lấy ngẫu nhiên 5 câu từ ngân hàng 10 câu
             selectedQuestions = [...questionBank].sort(() => 0.5 - Math.random()).slice(0, 5);
             currentQuizIndex = 0;
             quizScore = 0;
@@ -302,15 +320,14 @@
 
             qData.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left bg-slate-700 hover:bg-slate-600 border border-slate-600 p-3 rounded-xl text-xs font-medium transition duration-200 flex items-center justify-between";
-                btn.innerHTML = `<span>${opt}</span><span class="w-5 h-5 rounded-full border border-slate-500 flex items-center justify-center text-[10px] text-slate-400 font-bold">${String.fromCharCode(65 + idx)}</span>`;
+                btn.className = "w-full text-left bg-slate-900/90 hover:bg-vovinamBlue/40 border border-vovinamBlue/30 p-3 rounded-xl text-xs font-medium transition duration-200 flex items-center justify-between text-slate-200 shadow-sm";
+                btn.innerHTML = `<span>${opt}</span><span class="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] text-slate-300 font-bold bg-slate-800">${String.fromCharCode(65 + idx)}</span>`;
                 btn.onclick = () => selectAnswer(idx, btn);
                 optionsContainer.appendChild(btn);
             });
         }
 
         function selectAnswer(selectedIndex, selectedBtn) {
-            // Khóa tất cả các nút để tránh click nhiều lần
             const buttons = document.getElementById('quiz-options').getElementsByTagName('button');
             for (let b of buttons) {
                 b.disabled = true;
@@ -320,34 +337,31 @@
             const feedbackEl = document.getElementById('quiz-feedback');
 
             if (selectedIndex === qData.answer) {
-                selectedBtn.classList.remove('bg-slate-700', 'border-slate-600');
-                selectedBtn.classList.add('bg-emerald-600', 'border-emerald-500', 'text-white');
-                feedbackEl.innerHTML = `<span class="text-emerald-400 font-bold">✔ Chính xác!</span> ${qData.explanation}`;
+                selectedBtn.classList.remove('bg-slate-900/90', 'border-vovinamBlue/30');
+                selectedBtn.classList.add('bg-emerald-600', 'border-emerald-400', 'text-white', 'shadow-lg');
+                feedbackEl.innerHTML = `<span class="text-emerald-400 font-bold">✔ Chính xác!</span> <span class="text-slate-300">${qData.explanation}</span>`;
                 quizScore++;
             } else {
-                selectedBtn.classList.remove('bg-slate-700', 'border-slate-600');
-                selectedBtn.classList.add('bg-rose-600', 'border-rose-500', 'text-white');
-                // Highlight đáp án đúng
-                buttons[qData.answer].classList.remove('bg-slate-700', 'border-slate-600');
-                buttons[qData.answer].classList.add('bg-emerald-600', 'border-emerald-500', 'text-white');
-                feedbackEl.innerHTML = `<span class="text-rose-400 font-bold">✖ Chưa chính xác.</span> ${qData.explanation}`;
+                selectedBtn.classList.remove('bg-slate-900/90', 'border-vovinamBlue/30');
+                selectedBtn.classList.add('bg-rose-600', 'border-rose-400', 'text-white', 'shadow-lg');
+                buttons[qData.answer].classList.remove('bg-slate-900/90', 'border-vovinamBlue/30');
+                buttons[qData.answer].classList.add('bg-emerald-600', 'border-emerald-400', 'text-white', 'shadow-lg');
+                feedbackEl.innerHTML = `<span class="text-rose-400 font-bold">✖ Chưa chính xác.</span> <span class="text-slate-300">${qData.explanation}</span>`;
             }
 
             currentQuizIndex++;
 
-            // Tự động chuyển câu hỏi sau 1.2 giây mượt mà
             setTimeout(() => {
                 loadQuizQuestion();
             }, 2000);
         }
 
-        // --- HIỂN THỊ KẾT QUẢ & PASSPORT ---
         function showResult() {
             document.getElementById('screen-quiz').classList.add('hidden');
             document.getElementById('screen-result').classList.remove('hidden');
 
             document.getElementById('res-reflex').textContent = window.finalReflexAvg + " ms";
-            document.getElementById('res-quiz').textContent = quizScore + "/5 câu đúng";
+            document.getElementById('res-quiz').textContent = quizScore + "/5 câu";
         }
     </script>
 </body>
