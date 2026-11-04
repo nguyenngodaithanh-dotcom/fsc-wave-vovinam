@@ -287,9 +287,13 @@
             } else {
                 const avgTime = Math.round(totalReflexTime / 5);
                 
-                // Quy đổi ra thang điểm 100 (Dưới 250ms = 100đ, chậm hơn trừ dần, tối thiểu 10đ)
-                let reflexScore = Math.max(10, Math.min(100, Math.round(100 - (avgTime - 250) / 6)));
-                if (avgTime <= 250) reflexScore = 100;
+                // Công thức tính điểm mới: Dưới 500ms được 100 điểm, mỗi 100ms tiếp theo trừ 10 điểm (tối thiểu 10 điểm)
+                let reflexScore = 100;
+                if (avgTime > 500) {
+                    let overTime = avgTime - 500;
+                    let deduction = Math.floor(overTime / 100) * 10;
+                    reflexScore = Math.max(10, 100 - deduction);
+                }
 
                 window.finalReflexScore = reflexScore;
                 window.finalReflexAvgMs = avgTime;
