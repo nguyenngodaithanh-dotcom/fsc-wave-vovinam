@@ -60,7 +60,7 @@
                 </svg>
             </div>
             <h2 class="text-2xl font-black mb-2 text-white tracking-wide">THỬ THÁCH CLUB DAY</h2>
-            <p class="text-xs text-slate-300 mb-6 leading-relaxed">Chinh phục 2 cột mốc: <span class="text-vovinamGold font-bold">Phản xạ Võ sĩ (5 lượt)</span> & <span class="text-vovinamGold font-bold">Trí tuệ Võ đạo</span> để nhận đặc quyền đóng dấu Club Passport!</p>
+            <p class="text-xs text-slate-300 mb-6 leading-relaxed">Chinh phục 2 cột mốc: <span class="text-vovinamGold font-bold">Phản xạ Võ sĩ (&gt;70đ)</span> & <span class="text-vovinamGold font-bold">Trí tuệ Võ đạo (≥3 câu)</span> để nhận dấu xác nhận Club Passport!</p>
             <button onclick="startChallenge()" class="w-full bg-gradient-to-r from-yellow-500 via-vovinamGold to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-950 font-black py-3.5 px-6 rounded-xl transition duration-200 shadow-xl gold-glow transform active:scale-95 tracking-wider text-sm">
                 CHIẾN NGAY 🥋
             </button>
@@ -99,13 +99,13 @@
 
         <!-- MÀN HÌNH 4: KẾT QUẢ & CLUB PASSPORT + 2 MÃ QR -->
         <div id="screen-result" class="hidden bg-slate-800/90 border-2 border-vovinamGold/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
-            <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-vovinamGold">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div id="result-icon-container" class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-vovinamGold">
+                <svg id="result-svg-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
-            <h2 class="text-lg font-black text-vovinamGold mb-1 tracking-wider uppercase">HOÀN THÀNH XUẤT SẮC!</h2>
-            <p class="text-[11px] text-slate-300 mb-3">Bạn đã vượt qua các bài kiểm tra của CLB Vovinam FSC x Wave.</p>
+            <h2 id="result-title" class="text-lg font-black text-vovinamGold mb-1 tracking-wider uppercase">HOÀN THÀNH XUẤT SẮC!</h2>
+            <p id="result-subtitle" class="text-[11px] text-slate-300 mb-3">Bạn đã vượt qua các bài kiểm tra của CLB Vovinam FSC x Wave.</p>
             
             <div class="bg-slate-950/80 p-3 rounded-xl border border-vovinamBlue/40 text-left text-xs space-y-2 mb-4 shadow-inner">
                 <div class="flex justify-between items-center">
@@ -118,12 +118,12 @@
                 </div>
                 <div class="flex justify-between items-center border-t border-slate-800 pt-2">
                     <span class="text-slate-400">Trạng thái Passport:</span>
-                    <span class="font-extrabold text-vovinamGold animate-pulse">✔ ĐÃ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU</span>
+                    <span id="res-status" class="font-extrabold text-vovinamGold animate-pulse">✔ ĐÃ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU</span>
                 </div>
             </div>
 
-            <!-- KHU VỰC 2 MÃ QR (ĐĂNG KÝ & FANPAGE) -->
-            <div class="grid grid-cols-2 gap-3 mb-4">
+            <!-- KHU VỰC 2 MÃ QR (ĐĂNG KÝ & FANPAGE) - CHỈ HIỆN KHI ĐẠT -->
+            <div id="qr-section" class="grid grid-cols-2 gap-3 mb-4">
                 <!-- QR 1: Đăng ký thành viên -->
                 <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
                     <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
@@ -287,7 +287,6 @@
             } else {
                 const avgTime = Math.round(totalReflexTime / 5);
                 
-                // Công thức tính điểm mới: Dưới 500ms được 100 điểm, mỗi 100ms tiếp theo trừ 10 điểm (tối thiểu 10 điểm)
                 let reflexScore = 100;
                 if (avgTime > 500) {
                     let overTime = avgTime - 500;
@@ -369,6 +368,36 @@
 
             document.getElementById('res-reflex').textContent = `${window.finalReflexScore}/100 điểm (${window.finalReflexAvgMs}ms)`;
             document.getElementById('res-quiz').textContent = quizScore + "/5 câu";
+
+            // Kiểm tra điều kiện: Phản xạ > 70 điểm VÀ Quiz >= 3 câu
+            const isPassed = (window.finalReflexScore > 70) && (quizScore >= 3);
+
+            const iconContainer = document.getElementById('result-icon-container');
+            const svgIcon = document.getElementById('result-svg-icon');
+            const titleEl = document.getElementById('result-title');
+            const subtitleEl = document.getElementById('result-subtitle');
+            const statusEl = document.getElementById('res-status');
+            const qrSection = document.getElementById('qr-section');
+
+            if (isPassed) {
+                iconContainer.className = "w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-vovinamGold";
+                svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />`;
+                titleEl.textContent = "HOÀN THÀNH XUẤT SẮC!";
+                titleEl.className = "text-lg font-black text-vovinamGold mb-1 tracking-wider uppercase";
+                subtitleEl.textContent = "Bạn đã vượt qua các thử thách để nhận dấu Club Passport.";
+                statusEl.textContent = "✔ ĐÃ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU";
+                statusEl.className = "font-extrabold text-vovinamGold animate-pulse";
+                qrSection.classList.remove('hidden');
+            } else {
+                iconContainer.className = "w-14 h-14 bg-gradient-to-br from-rose-500 to-rose-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-rose-400";
+                svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />`;
+                titleEl.textContent = "CHƯA ĐẠT YÊU CẦU!";
+                titleEl.className = "text-lg font-black text-rose-400 mb-1 tracking-wider uppercase";
+                subtitleEl.textContent = "Cần >70đ phản xạ và đúng từ 3/5 câu quiz để nhận dấu.";
+                statusEl.textContent = "✖ KHÔNG ĐỦ ĐIỀU KIỆN ĐÓNG DẤU";
+                statusEl.className = "font-extrabold text-rose-400";
+                qrSection.classList.add('hidden'); // Ẩn QR nếu không đạt
+            }
         }
     </script>
 </body>
