@@ -109,8 +109,8 @@
             
             <div class="bg-slate-950/80 p-3 rounded-xl border border-vovinamBlue/40 text-left text-xs space-y-2 mb-4 shadow-inner">
                 <div class="flex justify-between items-center">
-                    <span class="text-slate-400">Tốc độ phản xạ trung bình:</span>
-                    <span id="res-reflex" class="font-bold text-vovinamGold">0 ms</span>
+                    <span class="text-slate-400">Điểm Phản xạ Võ sĩ:</span>
+                    <span id="res-reflex" class="font-bold text-vovinamGold">0/100 điểm</span>
                 </div>
                 <div class="flex justify-between items-center">
                     <span class="text-slate-400">Đúng trắc nghiệm Võ đạo:</span>
@@ -133,10 +133,10 @@
                     <span class="text-[9px] text-slate-400">Quét để điền Form</span>
                 </div>
 
-                <!-- QR 2: Fanpage CLB (Đã gắn link chính thức) -->
+                <!-- QR 2: Fanpage CLB -->
                 <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
                     <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://www.facebook.com/share/1DkMh875C7/?mibextid=wwXIfr" alt="QR Fanpage" class="w-24 h-24 rounded object-contain">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://www.facebook.com/people/FSC-x-Wave/61596077883921/" alt="QR Fanpage" class="w-24 h-24 rounded object-contain">
                     </div>
                     <span class="text-[11px] font-bold text-blue-400">🌐 FANPAGE CLB</span>
                     <span class="text-[9px] text-slate-400">Quét theo dõi Page</span>
@@ -286,7 +286,13 @@
                 }, 1000);
             } else {
                 const avgTime = Math.round(totalReflexTime / 5);
-                window.finalReflexAvg = avgTime;
+                
+                // Quy đổi ra thang điểm 100 (Dưới 250ms = 100đ, chậm hơn trừ dần, tối thiểu 10đ)
+                let reflexScore = Math.max(10, Math.min(100, Math.round(100 - (avgTime - 250) / 6)));
+                if (avgTime <= 250) reflexScore = 100;
+
+                window.finalReflexScore = reflexScore;
+                window.finalReflexAvgMs = avgTime;
                 
                 document.getElementById('screen-reflex').classList.add('hidden');
                 initQuiz();
@@ -357,7 +363,7 @@
             document.getElementById('screen-quiz').classList.add('hidden');
             document.getElementById('screen-result').classList.remove('hidden');
 
-            document.getElementById('res-reflex').textContent = window.finalReflexAvg + " ms";
+            document.getElementById('res-reflex').textContent = `${window.finalReflexScore}/100 điểm (${window.finalReflexAvgMs}ms)`;
             document.getElementById('res-quiz').textContent = quizScore + "/5 câu";
         }
     </script>
