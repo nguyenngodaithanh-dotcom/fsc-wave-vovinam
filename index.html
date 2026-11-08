@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSC x Wave | F5 Night: Five Worlds Mini Challenge</title>
+    <title>FSC x Wave | F5 Night: Five Worlds Leaderboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -37,7 +37,7 @@
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-vovinamGold selection:text-slate-900">
 
-    <!-- HEADER ĐẬM CHẤT VÕ ĐẠO -->
+    <!-- HEADER -->
     <header class="bg-gradient-to-r from-vovinamDarkBlue via-vovinamBlue to-vovinamDarkBlue border-b-2 border-vovinamGold shadow-2xl py-4 px-6 text-center relative overflow-hidden">
         <div class="absolute -right-10 -top-10 w-32 h-32 bg-vovinamGold/10 rounded-full blur-2xl pointer-events-none"></div>
         <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -45,77 +45,93 @@
         <div class="max-w-md mx-auto relative z-10">
             <span class="bg-vovinamGold text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-widest shadow-md">F5 Night: Five Worlds</span>
             <h1 class="text-2xl font-black mt-2 tracking-tight text-white drop-shadow-md">FSC x WAVE <span class="text-vovinamGold">VOVINAM</span></h1>
-            <p class="text-xs text-blue-200 mt-1 font-medium tracking-wide">Võ Đạo Sáng Tương Lai • Thử Thách Bản Lĩnh</p>
+            <p class="text-xs text-blue-200 mt-1 font-medium tracking-wide">Võ Đạo Sáng Tương Lai • Đấu Trường Vinh Quang</p>
         </div>
     </header>
 
     <!-- MAIN CONTAINER -->
     <main class="max-w-md mx-auto w-full p-4 flex-grow flex flex-col justify-center">
 
-        <!-- MÀN HÌNH 1: CHỌN 2 TRONG 5 GAME -->
-        <div id="screen-select" class="bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
-            <div class="w-16 h-16 bg-gradient-to-br from-vovinamBlue to-vovinamDarkBlue rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-vovinamGold">
+        <!-- MÀN HÌNH 0: NHẬP TÊN NGƯỜI CHƠI -->
+        <div id="screen-name" class="bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-6 text-center martial-glow backdrop-blur-md">
+            <div class="w-16 h-16 bg-gradient-to-br from-vovinamBlue to-vovinamDarkBlue rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl border-2 border-vovinamGold">
                 <span class="text-2xl">🥋</span>
             </div>
-            <h2 class="text-xl font-black mb-1 text-white tracking-wide">FIVE WORLDS CHALLENGE</h2>
-            <p class="text-xs text-slate-300 mb-4">Hãy chọn <span class="text-vovinamGold font-bold">2 thử thách</span> bạn muốn chinh phục để lấy dấu Passport!</p>
+            <h2 class="text-xl font-black mb-2 text-white tracking-wide">ĐĂNG KÝ VẬN ĐỘNG VIÊN</h2>
+            <p class="text-xs text-slate-300 mb-5">Nhập tên của bạn để ghi danh vào Bảng Xếp Hạng sự kiện!</p>
+            
+            <input type="text" id="player-name-input" placeholder="Ví dụ: Nguyễn Văn A..." maxlength="25" class="w-full bg-slate-950 border border-slate-700 focus:border-vovinamGold rounded-xl p-3 text-sm text-center text-white outline-none mb-4 shadow-inner">
+            
+            <button onclick="submitPlayerName()" class="w-full bg-gradient-to-r from-yellow-500 via-vovinamGold to-yellow-600 hover:from-yellow-400 text-slate-950 font-black py-3.5 px-6 rounded-xl transition duration-200 shadow-xl gold-glow tracking-wider text-xs uppercase mb-3">
+                BẮT ĐẦU CHINH PHỤC 🚀
+            </button>
 
-            <div class="space-y-2.5 text-left mb-5">
-                <!-- Game 1 -->
-                <div onclick="toggleGameSelect(1)" id="card-game-1" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-3 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xl">⚡</span>
+            <!-- Nút xem BXH ngay từ màn hình đầu -->
+            <button onclick="showLeaderboardModal()" class="w-full bg-slate-900/80 hover:bg-slate-900 text-vovinamGold border border-vovinamGold/40 font-bold py-2.5 px-4 rounded-xl text-xs transition">
+                🏆 Xem Bảng Xếp Hạng
+            </button>
+        </div>
+
+        <!-- MÀN HÌNH 1: CHỌN 2 TRONG 5 GAME -->
+        <div id="screen-select" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
+            <div class="flex justify-between items-center mb-3">
+                <span id="welcome-player-tag" class="text-xs font-bold text-vovinamGold bg-slate-900/80 px-2.5 py-1 rounded-lg border border-vovinamBlue/30">VĐV: ...</span>
+                <span class="text-xs font-bold text-slate-400">Chọn 2/5 Thử Thách</span>
+            </div>
+            <h2 class="text-lg font-black mb-1 text-white tracking-wide">CHỌN 2 THẾ GIỚI THI ĐẤU</h2>
+            <p class="text-xs text-slate-300 mb-4">Tổng điểm 2 vòng sẽ quyết định thứ hạng trên BXH!</p>
+
+            <div class="space-y-2 text-left mb-4">
+                <div onclick="toggleGameSelect(1)" id="card-game-1" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-lg">⚡</span>
                         <div>
-                            <div class="text-xs font-bold text-slate-100">1. Phản Xạ Nhanh Lẹ</div>
-                            <div class="text-[10px] text-slate-400">10 giây bấm nhanh các bao đấm (Cần ≥60đ)</div>
+                            <div class="text-xs font-bold text-slate-100">1. Phản Xạ Nhanh Lẹ (10s)</div>
+                            <div class="text-[10px] text-slate-400">Đấm chuẩn xác bao đấm xuất hiện</div>
                         </div>
                     </div>
                     <input type="checkbox" id="chk-game-1" class="w-4 h-4 accent-yellow-400 pointer-events-none">
                 </div>
 
-                <!-- Game 2 -->
-                <div onclick="toggleGameSelect(2)" id="card-game-2" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-3 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xl">📜</span>
+                <div onclick="toggleGameSelect(2)" id="card-game-2" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-lg">📜</span>
                         <div>
                             <div class="text-xs font-bold text-slate-100">2. Trí Tuệ Võ Đạo</div>
-                            <div class="text-[10px] text-slate-400">Trả lời 5 câu hỏi lịch sử Vovinam (Cần ≥3/5 câu)</div>
+                            <div class="text-[10px] text-slate-400">Trắc nghiệm lịch sử Vovinam (5 câu)</div>
                         </div>
                     </div>
                     <input type="checkbox" id="chk-game-2" class="w-4 h-4 accent-yellow-400 pointer-events-none">
                 </div>
 
-                <!-- Game 3 -->
-                <div onclick="toggleGameSelect(3)" id="card-game-3" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-3 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xl">🎯</span>
+                <div onclick="toggleGameSelect(3)" id="card-game-3" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-lg">🎯</span>
                         <div>
                             <div class="text-xs font-bold text-slate-100">3. Mắt Thần Võ Sĩ</div>
-                            <div class="text-[10px] text-slate-400">Căn thời điểm dừng tâm ngắm chuẩn xác (Cần ≥60đ)</div>
+                            <div class="text-[10px] text-slate-400">Căn thời điểm định tâm chuẩn xác</div>
                         </div>
                     </div>
                     <input type="checkbox" id="chk-game-3" class="w-4 h-4 accent-yellow-400 pointer-events-none">
                 </div>
 
-                <!-- Game 4 -->
-                <div onclick="toggleGameSelect(4)" id="card-game-4" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-3 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xl">💥</span>
+                <div onclick="toggleGameSelect(4)" id="card-game-4" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-lg">💥</span>
                         <div>
                             <div class="text-xs font-bold text-slate-100">4. Cuồng Phong Đấm Thần Tốc</div>
-                            <div class="text-[10px] text-slate-400">Bấm liên hoàn trong 5s tích năng lượng (Cần ≥60đ)</div>
+                            <div class="text-[10px] text-slate-400">Liên hoàn đấm tích năng lượng (5s)</div>
                         </div>
                     </div>
                     <input type="checkbox" id="chk-game-4" class="w-4 h-4 accent-yellow-400 pointer-events-none">
                 </div>
 
-                <!-- Game 5 -->
-                <div onclick="toggleGameSelect(5)" id="card-game-5" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-3 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="text-xl">🧘</span>
+                <div onclick="toggleGameSelect(5)" id="card-game-5" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-lg">🧘</span>
                         <div>
                             <div class="text-xs font-bold text-slate-100">5. Thượng Võ Cân Bằng</div>
-                            <div class="text-[10px] text-slate-400">Giữ thăng bằng trong 8 giây chao đảo (Cần ≥60đ)</div>
+                            <div class="text-[10px] text-slate-400">Giữ thăng bằng quả cầu (8s)</div>
                         </div>
                     </div>
                     <input type="checkbox" id="chk-game-5" class="w-4 h-4 accent-yellow-400 pointer-events-none">
@@ -123,34 +139,34 @@
             </div>
 
             <button id="btn-start-selected" onclick="startSelectedGames()" disabled class="w-full bg-slate-700 text-slate-400 font-black py-3 px-6 rounded-xl transition duration-200 shadow-xl tracking-wider text-xs uppercase cursor-not-allowed">
-                CHỌN ĐỦ 2 GAME ĐỂ BẮT ĐẦU 🥋
+                HÃY CHỌN ĐỦ 2 GAME 🥋
             </button>
         </div>
 
         <!-- GAME 1: PHẢN XẠ 10 GIÂY -->
         <div id="screen-game-1" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
             <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">⚡ GAME 1: PHẢN XẠ 10 GIÂY</span>
+                <span class="font-extrabold text-vovinamGold">⚡ PHẢN XẠ 10 GIÂY</span>
                 <span id="g1-timer" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Thời gian: 10s</span>
             </div>
-            <p class="text-xs text-slate-300 mb-3">Chạm liên tục vào <span class="text-vovinamGold font-bold">Bao Đấm</span> xuất hiện/biến mất ngẫu nhiên!</p>
+            <p class="text-xs text-slate-300 mb-3">Chạm liên tục vào <span class="text-vovinamGold font-bold">Bao Đấm</span> xuất hiện ngẫu nhiên!</p>
             
-            <div id="g1-arena" class="relative w-full h-[300px] bg-slate-950/80 rounded-xl border-2 border-dashed border-vovinamBlue/40 overflow-hidden flex items-center justify-center">
-                <div id="g1-msg" class="text-slate-400 text-xs font-semibold pointer-events-none">Nhấn nút bên dưới để bắt đầu tính giờ 10s!</div>
+            <div id="g1-arena" class="relative w-full h-[280px] bg-slate-950/80 rounded-xl border-2 border-dashed border-vovinamBlue/40 overflow-hidden flex items-center justify-center">
+                <div id="g1-msg" class="text-slate-400 text-xs font-semibold pointer-events-none">Nhấn nút bên dưới để bắt đầu!</div>
                 <div id="g1-target" onclick="hitG1Target()" class="hidden absolute w-16 h-16 bg-gradient-to-br from-red-600 to-vovinamBlue rounded-full border-2 border-vovinamGold flex items-center justify-center cursor-pointer active:scale-90 transition-transform">
                     <span class="text-xs font-black text-white">💥 ĐẤM</span>
                 </div>
             </div>
 
-            <button id="btn-start-g1" onclick="runGame1()" class="mt-4 w-full bg-gradient-to-r from-blue-600 to-vovinamBlue hover:from-blue-500 text-white font-bold py-3 px-4 rounded-xl text-xs">
-                SẮN SÀNG - BẮT ĐẦU 10S!
+            <button id="btn-start-g1" onclick="runGame1()" class="mt-4 w-full bg-gradient-to-r from-blue-600 to-vovinamBlue text-white font-bold py-3 px-4 rounded-xl text-xs shadow-lg">
+                SẴN SÀNG - BẮT ĐẦU!
             </button>
         </div>
 
         <!-- GAME 2: TRẮC NGHIỆM VÕ ĐẠO -->
         <div id="screen-game-2" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 martial-glow backdrop-blur-md">
             <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">📜 GAME 2: TRÍ TUỆ VÕ ĐẠO</span>
+                <span class="font-extrabold text-vovinamGold">📜 TRÍ TUỆ VÕ ĐẠO</span>
                 <span id="quiz-progress" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Câu: 1/5</span>
             </div>
             <h3 id="quiz-question" class="text-sm font-bold mb-4 text-slate-100 min-h-[50px]">Đang tải câu hỏi...</h3>
@@ -158,20 +174,18 @@
             <div id="quiz-feedback" class="mt-3 text-xs font-semibold text-center min-h-[24px]"></div>
         </div>
 
-        <!-- GAME 3: MẮT THẦN VÕ SĨ (ĐỊNH TÂM) -->
+        <!-- GAME 3: MẮT THẦN VÕ SĨ -->
         <div id="screen-game-3" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
             <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">🎯 GAME 3: MẮT THẦN VÕ SĨ</span>
+                <span class="font-extrabold text-vovinamGold">🎯 MẮT THẦN VÕ SĨ</span>
                 <span id="g3-round" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Lượt: 1/3</span>
             </div>
-            <p class="text-xs text-slate-300 mb-3">Bấm nút <span class="text-vovinamGold font-bold">ĐỊNH TÂM</span> khi vòng tròn chạy vào tâm mục tiêu vàng!</p>
+            <p class="text-xs text-slate-300 mb-3">Bấm nút <span class="text-vovinamGold font-bold">ĐỊNH TÂM</span> khi vạch đỏ chạy vào mục tiêu vàng!</p>
             
-            <div class="relative w-full h-[180px] bg-slate-950/80 rounded-xl border-2 border-vovinamBlue/40 overflow-hidden flex items-center justify-center mb-4">
-                <!-- Mục tiêu vàng cố định chính giữa -->
+            <div class="relative w-full h-[160px] bg-slate-950/80 rounded-xl border-2 border-vovinamBlue/40 overflow-hidden flex items-center justify-center mb-4">
                 <div class="w-16 h-full bg-vovinamGold/20 border-x-2 border-vovinamGold flex items-center justify-center">
-                    <span class="text-[10px] font-bold text-vovinamGold">MỤC TIÊU</span>
+                    <span class="text-[10px] font-bold text-vovinamGold">TÂM</span>
                 </div>
-                <!-- Tâm ngắm di chuyển -->
                 <div id="g3-pointer" class="absolute top-0 bottom-0 w-3 bg-red-500 shadow-[0_0_10px_#ef4444] rounded-full left-0"></div>
             </div>
 
@@ -183,18 +197,17 @@
         <!-- GAME 4: CUỒNG PHONG ĐẤM THẦN TỐC -->
         <div id="screen-game-4" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
             <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">💥 GAME 4: CUỒNG PHONG ĐẤM</span>
+                <span class="font-extrabold text-vovinamGold">💥 CUỒNG PHONG ĐẤM (5s)</span>
                 <span id="g4-timer" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Thời gian: 5s</span>
             </div>
-            <p class="text-xs text-slate-300 mb-3">Bấm dồn dập vào nút ĐẤM bên dưới để tích lũy Năng Lượng!</p>
+            <p class="text-xs text-slate-300 mb-3">Bấm dồn dập vào nút dưới đây để tích lũy năng lượng đấm!</p>
 
-            <!-- Thanh Năng Lượng -->
-            <div class="w-full bg-slate-950 h-8 rounded-full border border-slate-700 p-1 mb-4 overflow-hidden">
+            <div class="w-full bg-slate-950 h-7 rounded-full border border-slate-700 p-1 mb-3 overflow-hidden">
                 <div id="g4-bar" class="bg-gradient-to-r from-blue-500 via-vovinamGold to-red-500 h-full rounded-full transition-all duration-75 w-0"></div>
             </div>
             <div class="text-xs font-bold text-vovinamGold mb-4">Số cú đấm: <span id="g4-count">0</span></div>
 
-            <button id="btn-hit-g4" onclick="hitGame4()" class="w-full bg-gradient-to-r from-red-600 via-vovinamBlue to-vovinamDarkBlue hover:from-red-500 text-white font-black py-6 rounded-2xl text-lg shadow-xl active:scale-95 transition-transform">
+            <button onclick="hitGame4()" class="w-full bg-gradient-to-r from-red-600 via-vovinamBlue to-vovinamDarkBlue text-white font-black py-6 rounded-2xl text-base shadow-xl active:scale-95 transition-transform">
                 💥 ĐẤM LIÊN HOÀN! 💥
             </button>
         </div>
@@ -202,25 +215,23 @@
         <!-- GAME 5: THƯỢNG VÕ CÂN BẰNG -->
         <div id="screen-game-5" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
             <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">🧘 GAME 5: THƯỢNG VÕ CÂN BẰNG</span>
+                <span class="font-extrabold text-vovinamGold">🧘 THƯỢNG VÕ CÂN BẰNG (8s)</span>
                 <span id="g5-timer" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Thời gian: 8s</span>
             </div>
-            <p class="text-xs text-slate-300 mb-3">Nhấn 2 nút Trái/Phải để giữ quả cầu cân bằng trong vùng xanh!</p>
+            <p class="text-xs text-slate-300 mb-3">Nhấn 2 nút Trái/Phải liên tục để giữ quả cầu trong vùng xanh!</p>
 
             <div class="relative w-full h-12 bg-slate-950 rounded-full border border-slate-700 p-1 mb-6 flex items-center">
-                <!-- Vùng an toàn xanh -->
                 <div class="absolute left-1/2 -translate-x-1/2 w-1/3 h-full bg-emerald-500/20 border-x-2 border-emerald-400 rounded-lg"></div>
-                <!-- Quả cầu -->
                 <div id="g5-ball" class="absolute w-8 h-8 bg-vovinamGold rounded-full shadow-[0_0_12px_#ffd700] transition-all duration-75 left-1/2 -translate-x-1/2"></div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
-                <button onmousedown="moveG5(-8)" touchstart="moveG5(-8)" class="bg-slate-700 active:bg-vovinamBlue text-white font-black py-4 rounded-xl text-sm">◄ SANG TRÁI</button>
-                <button onmousedown="moveG5(8)" touchstart="moveG5(8)" class="bg-slate-700 active:bg-vovinamBlue text-white font-black py-4 rounded-xl text-sm">SANG PHẢI ►</button>
+                <button onmousedown="moveG5(-10)" ontouchstart="moveG5(-10)" class="bg-slate-700 active:bg-vovinamBlue text-white font-black py-4 rounded-xl text-xs">◄ SANG TRÁI</button>
+                <button onmousedown="moveG5(10)" ontouchstart="moveG5(10)" class="bg-slate-700 active:bg-vovinamBlue text-white font-black py-4 rounded-xl text-xs">SANG PHẢI ►</button>
             </div>
         </div>
 
-        <!-- MÀN HÌNH MỤC TẾT QUẢ & CLUB PASSPORT -->
+        <!-- MÀN HÌNH KẾT QUẢ & CLUB PASSPORT -->
         <div id="screen-result" class="hidden bg-slate-800/90 border-2 border-vovinamGold/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
             <div id="result-icon-container" class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-vovinamGold">
                 <svg id="result-svg-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -228,20 +239,20 @@
                 </svg>
             </div>
             <h2 id="result-title" class="text-lg font-black text-vovinamGold mb-1 tracking-wider uppercase">HOÀN THÀNH XUẤT SẮC!</h2>
-            <p id="result-subtitle" class="text-[11px] text-slate-300 mb-3">Kết quả thử thách 2 thế giới của bạn tại FSC x Wave.</p>
+            <p id="result-subtitle" class="text-[11px] text-slate-300 mb-2">Tổng kết thành tích thi đấu của bạn.</p>
             
             <div id="result-details" class="bg-slate-950/80 p-3 rounded-xl border border-vovinamBlue/40 text-left text-xs space-y-2 mb-4 shadow-inner">
-                <!-- Sẽ render kết quả 2 game qua JS -->
+                <!-- Render kết quả qua JS -->
             </div>
 
             <!-- 2 MÃ QR (ĐĂNG KÝ & FANPAGE) -->
-            <div id="qr-section" class="grid grid-cols-2 gap-3 mb-4">
+            <div id="qr-section" class="grid grid-cols-2 gap-3 mb-3">
                 <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
                     <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://forms.gle/YOUR_GOOGLE_FORM_LINK" alt="QR Đăng ký" class="w-24 h-24 rounded object-contain">
                     </div>
                     <span class="text-[11px] font-bold text-vovinamGold">📝 ĐĂNG KÝ CLB</span>
-                    <span class="text-[9px] text-slate-400">Quét để điền Form</span>
+                    <span class="text-[9px] text-slate-400">Quét điền Form</span>
                 </div>
 
                 <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
@@ -253,12 +264,36 @@
                 </div>
             </div>
 
-            <button onclick="location.reload()" class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 px-4 rounded-xl text-xs border border-slate-600 shadow-md">
-                Chơi lại từ đầu ⟳
-            </button>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="showLeaderboardModal()" class="bg-vovinamBlue hover:bg-blue-600 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow-md">
+                    🏆 Xem BXH
+                </button>
+                <button onclick="location.reload()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs border border-slate-600 shadow-md">
+                    Chơi lại ⟳
+                </button>
+            </div>
         </div>
 
     </main>
+
+    <!-- MODAL BẢNG XẾP HẠNG -->
+    <div id="leaderboard-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-vovinamGold rounded-2xl max-w-sm w-full p-5 shadow-2xl relative">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
+                <h3 class="text-base font-black text-vovinamGold flex items-center gap-2">🏆 BẢNG XẾP HẠNG VÀNG</h3>
+                <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-white font-bold text-base px-2">✕</button>
+            </div>
+            <p class="text-[11px] text-slate-400 mb-3">Top vận động viên có tổng điểm cao nhất từ 2 thử thách:</p>
+            
+            <div id="leaderboard-list" class="space-y-2 max-h-60 overflow-y-auto mb-4 pr-1 text-xs">
+                <!-- Render danh sách BXH qua JS -->
+            </div>
+
+            <button onclick="closeLeaderboardModal()" class="w-full bg-vovinamBlue hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-xs">
+                Đóng
+            </button>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="text-center py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-950/50">
@@ -267,11 +302,27 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // State quản lý lựa chọn
+        let playerName = "";
         let selectedGameIds = [];
         let currentGameIndex = 0;
-        let gameResults = []; // [{ id, name, score, isPass, text }]
+        let gameResults = [];
 
+        // --- QUẢN LÝ TÊN & MÀN HÌNH ĐẦU ---
+        function submitPlayerName() {
+            const input = document.getElementById('player-name-input');
+            const name = input.value.trim();
+            if (!name) {
+                alert("Vui lòng nhập tên của bạn trước khi bắt đầu!");
+                input.focus();
+                return;
+            }
+            playerName = name;
+            document.getElementById('welcome-player-tag').textContent = `VĐV: ${playerName}`;
+            document.getElementById('screen-name').classList.add('hidden');
+            document.getElementById('screen-select').classList.remove('hidden');
+        }
+
+        // --- CHỌN 2/5 GAME ---
         function toggleGameSelect(id) {
             const chk = document.getElementById(`chk-game-${id}`);
             const card = document.getElementById(`card-game-${id}`);
@@ -281,7 +332,7 @@
                 chk.checked = false;
                 card.classList.remove('border-vovinamGold', 'bg-vovinamBlue/20');
             } else {
-                if (selectedGameIds.length >= 2) return; // Chỉ cho chọn tối đa 2
+                if (selectedGameIds.length >= 2) return;
                 selectedGameIds.push(id);
                 chk.checked = true;
                 card.classList.add('border-vovinamGold', 'bg-vovinamBlue/20');
@@ -304,6 +355,7 @@
         function startSelectedGames() {
             document.getElementById('screen-select').classList.add('hidden');
             currentGameIndex = 0;
+            gameResults = [];
             runNextGame();
         }
 
@@ -312,7 +364,6 @@
                 showFinalResults();
                 return;
             }
-
             const gId = selectedGameIds[currentGameIndex];
             if (gId === 1) initGame1();
             if (gId === 2) initGame2();
@@ -321,14 +372,14 @@
             if (gId === 5) initGame5();
         }
 
-        // ================= GAME 1 LOGIC (PHẢN XẠ 10S) =================
+        // ================= GAME 1: PHẢN XẠ 10S =================
         let g1Hits = 0;
         let g1TimerId = null;
 
         function initGame1() {
             document.getElementById('screen-game-1').classList.remove('hidden');
             document.getElementById('btn-start-g1').classList.remove('hidden');
-            document.getElementById('g1-msg').textContent = "Nhấn nút bên dưới để bắt đầu 10s!";
+            document.getElementById('g1-msg').textContent = "Nhấn nút bên dưới để bắt đầu!";
             document.getElementById('g1-target').classList.add('hidden');
             g1Hits = 0;
         }
@@ -338,7 +389,6 @@
             document.getElementById('g1-msg').textContent = "";
             g1Hits = 0;
             let timeLeft = 10;
-            
             spawnG1Target();
 
             g1TimerId = setInterval(() => {
@@ -348,22 +398,15 @@
                     clearInterval(g1TimerId);
                     document.getElementById('g1-target').classList.add('hidden');
                     
-                    // Tính điểm: Mỗi bao đấm = 10 điểm (Tối đa 100đ, 60đ đạt)
                     let score = Math.min(100, g1Hits * 10);
                     let isPass = score >= 60;
-                    gameResults.push({
-                        id: 1,
-                        name: "1. Phản Xạ Nhanh Lẹ",
-                        score: score,
-                        isPass: isPass,
-                        text: `${score}/100 điểm (Đấm ${g1Hits} bao)`
-                    });
+                    gameResults.push({ name: "1. Phản Xạ Nhanh Lẹ", score, isPass, text: `${score}/100đ (${g1Hits} đấm)` });
 
                     setTimeout(() => {
                         document.getElementById('screen-game-1').classList.add('hidden');
                         currentGameIndex++;
                         runNextGame();
-                    }, 1200);
+                    }, 1000);
                 }
             }, 1000);
         }
@@ -373,12 +416,8 @@
             const target = document.getElementById('g1-target');
             const maxX = arena.clientWidth - 70;
             const maxY = arena.clientHeight - 70;
-
-            const randomX = Math.floor(Math.random() * Math.max(10, maxX));
-            const randomY = Math.floor(Math.random() * Math.max(10, maxY));
-
-            target.style.left = randomX + 'px';
-            target.style.top = randomY + 'px';
+            target.style.left = Math.floor(Math.random() * Math.max(10, maxX)) + 'px';
+            target.style.top = Math.floor(Math.random() * Math.max(10, maxY)) + 'px';
             target.classList.remove('hidden');
         }
 
@@ -387,18 +426,15 @@
             spawnG1Target();
         }
 
-        // ================= GAME 2 LOGIC (TRẮC NGHIỆM VÕ ĐẠO) =================
+        // ================= GAME 2: TRẮC NGHIỆM VÕ ĐẠO =================
         const questionBank = [
-            { q: "Bài quyền nhập môn đầu tiên mà môn sinh Vovinam được tập luyện là gì?", options: ["Nhập môn quyền", "Khởi quyền", "Thập tự quyền", "Long hổ quyền"], answer: 1, explanation: "Khởi quyền là bài quyền căn bản đầu tiên." },
-            { q: "Vovinam (Việt Võ Đạo) do võ sư nào sáng lập?", options: ["Võ sư Nguyễn Lộc", "Võ sư Sáng Sáng", "Võ sư Lê Sáng", "Võ sư Trần Đế"], answer: 0, explanation: "Vovinam do cố võ sư Nguyễn Lộc sáng lập năm 1938." },
-            { q: "Màu sắc truyền thống đặc trưng của võ phục Vovinam là gì?", options: ["Màu đen", "Màu trắng", "Màu xanh lam", "Màu vàng"], answer: 2, explanation: "Võ phục Vovinam có màu xanh lam đặc trưng." },
-            { q: "Đòn chân tấn công nào của Vovinam nổi tiếng toàn thế giới?", options: ["Đòn chân kẹp cổ", "Đòn bay người đá tạt", "Đòn quét sơn", "Đòn chém cạnh tay"], answer: 0, explanation: "Đòn chân kẹp cổ là nét độc đáo bậc nhất của Vovinam." },
-            { q: "Ý nghĩa bàn tay thép ôm đấm non sông trong biểu tượng Vovinam là gì?", options: ["Sức mạnh tuyệt đối", "Sự kết hợp cương và nhu", "Ý chí chiến đấu", "Tinh thần thượng võ"], answer: 1, explanation: "Thể hiện triết lý cương nhu phối triển." }
+            { q: "Bài quyền nhập môn đầu tiên mà môn sinh Vovinam được tập luyện là gì?", options: ["Nhập môn quyền", "Khởi quyền", "Thập tự quyền", "Long hổ quyền"], answer: 1 },
+            { q: "Vovinam (Việt Võ Đạo) do võ sư nào sáng lập?", options: ["Võ sư Nguyễn Lộc", "Võ sư Sáng Sáng", "Võ sư Lê Sáng", "Võ sư Trần Đế"], answer: 0 },
+            { q: "Màu sắc truyền thống đặc trưng của võ phục Vovinam là gì?", options: ["Màu đen", "Màu trắng", "Màu xanh lam", "Màu vàng"], answer: 2 },
+            { q: "Đòn chân tấn công nào của Vovinam nổi tiếng toàn thế giới?", options: ["Đòn chân kẹp cổ", "Đòn bay người đá tạt", "Đòn quét sơn", "Đòn chém cạnh tay"], answer: 0 },
+            { q: "Ý nghĩa bàn tay thép ôm đấm non sông trong biểu tượng Vovinam là gì?", options: ["Sức mạnh tuyệt đối", "Sự kết hợp cương và nhu", "Ý chí chiến đấu", "Tinh thần thượng võ"], answer: 1 }
         ];
-
-        let selectedQuestions = [];
-        let currentQuizIndex = 0;
-        let quizScore = 0;
+        let selectedQuestions = [], currentQuizIndex = 0, quizScore = 0;
 
         function initGame2() {
             document.getElementById('screen-game-2').classList.remove('hidden');
@@ -410,15 +446,9 @@
 
         function loadQuizQuestion() {
             if (currentQuizIndex >= selectedQuestions.length) {
-                let isPass = quizScore >= 3;
-                gameResults.push({
-                    id: 2,
-                    name: "2. Trí Tuệ Võ Đạo",
-                    score: quizScore * 20,
-                    isPass: isPass,
-                    text: `${quizScore}/5 câu đúng`
-                });
-
+                let score = quizScore * 20;
+                let isPass = score >= 60;
+                gameResults.push({ name: "2. Trí Tuệ Võ Đạo", score, isPass, text: `${score}/100đ (${quizScore}/5 câu)` });
                 setTimeout(() => {
                     document.getElementById('screen-game-2').classList.add('hidden');
                     currentGameIndex++;
@@ -426,15 +456,12 @@
                 }, 1000);
                 return;
             }
-
             const qData = selectedQuestions[currentQuizIndex];
             document.getElementById('quiz-progress').textContent = `Câu: ${currentQuizIndex + 1}/5`;
             document.getElementById('quiz-question').textContent = qData.q;
             document.getElementById('quiz-feedback').textContent = "";
-
             const optionsContainer = document.getElementById('quiz-options');
             optionsContainer.innerHTML = '';
-
             qData.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = "w-full text-left bg-slate-900/90 hover:bg-vovinamBlue/40 border border-vovinamBlue/30 p-3 rounded-xl text-xs font-medium flex items-center justify-between text-slate-200";
@@ -447,30 +474,22 @@
         function selectAnswer(selectedIndex, selectedBtn) {
             const buttons = document.getElementById('quiz-options').getElementsByTagName('button');
             for (let b of buttons) b.disabled = true;
-
             const qData = selectedQuestions[currentQuizIndex];
-            const feedbackEl = document.getElementById('quiz-feedback');
-
             if (selectedIndex === qData.answer) {
                 selectedBtn.classList.add('bg-emerald-600', 'text-white');
-                feedbackEl.innerHTML = `<span class="text-emerald-400 font-bold">✔ Chính xác!</span>`;
+                document.getElementById('quiz-feedback').innerHTML = `<span class="text-emerald-400 font-bold">✔ Chính xác!</span>`;
                 quizScore++;
             } else {
                 selectedBtn.classList.add('bg-rose-600', 'text-white');
                 buttons[qData.answer].classList.add('bg-emerald-600', 'text-white');
-                feedbackEl.innerHTML = `<span class="text-rose-400 font-bold">✖ Chưa chính xác.</span>`;
+                document.getElementById('quiz-feedback').innerHTML = `<span class="text-rose-400 font-bold">✖ Chưa chính xác.</span>`;
             }
-
             currentQuizIndex++;
             setTimeout(loadQuizQuestion, 1200);
         }
 
-        // ================= GAME 3 LOGIC (MẮT THẦN VÕ SĨ) =================
-        let g3Pos = 0;
-        let g3Direction = 1;
-        let g3Interval = null;
-        let g3Round = 1;
-        let g3TotalScore = 0;
+        // ================= GAME 3: MẮT THẦN VÕ SĨ =================
+        let g3Pos = 0, g3Direction = 1, g3Interval = null, g3Round = 1, g3TotalScore = 0;
 
         function initGame3() {
             document.getElementById('screen-game-3').classList.remove('hidden');
@@ -482,12 +501,10 @@
         function startG3Loop() {
             document.getElementById('g3-round').textContent = `Lượt: ${g3Round}/3`;
             const pointer = document.getElementById('g3-pointer');
-            g3Pos = 0;
-            g3Direction = 1;
-
+            g3Pos = 0; g3Direction = 1;
             if (g3Interval) clearInterval(g3Interval);
             g3Interval = setInterval(() => {
-                g3Pos += g3Direction * 3.5;
+                g3Pos += g3Direction * 4;
                 if (g3Pos >= 95) g3Direction = -1;
                 if (g3Pos <= 0) g3Direction = 1;
                 pointer.style.left = g3Pos + '%';
@@ -496,25 +513,16 @@
 
         function lockGame3() {
             clearInterval(g3Interval);
-            // Tính độ chính xác so với điểm giữa (50%)
             let diff = Math.abs(g3Pos - 48);
             let score = Math.max(10, Math.round(100 - diff * 2.2));
             g3TotalScore += score;
-
             if (g3Round < 3) {
                 g3Round++;
                 setTimeout(startG3Loop, 800);
             } else {
                 let finalScore = Math.round(g3TotalScore / 3);
                 let isPass = finalScore >= 60;
-                gameResults.push({
-                    id: 3,
-                    name: "3. Mắt Thần Võ Sĩ",
-                    score: finalScore,
-                    isPass: isPass,
-                    text: `${finalScore}/100 điểm`
-                });
-
+                gameResults.push({ name: "3. Mắt Thần Võ Sĩ", score: finalScore, isPass, text: `${finalScore}/100đ` });
                 setTimeout(() => {
                     document.getElementById('screen-game-3').classList.add('hidden');
                     currentGameIndex++;
@@ -523,33 +531,23 @@
             }
         }
 
-        // ================= GAME 4 LOGIC (CUỒNG PHONG ĐẤM) =================
-        let g4Count = 0;
-        let g4TimerId = null;
+        // ================= GAME 4: CUỒNG PHONG ĐẤM =================
+        let g4Count = 0, g4TimerId = null;
 
         function initGame4() {
             document.getElementById('screen-game-4').classList.remove('hidden');
             g4Count = 0;
             document.getElementById('g4-count').textContent = "0";
             document.getElementById('g4-bar').style.width = '0%';
-            
             let timeLeft = 5;
             g4TimerId = setInterval(() => {
                 timeLeft--;
                 document.getElementById('g4-timer').textContent = `Thời gian: ${timeLeft}s`;
                 if (timeLeft <= 0) {
                     clearInterval(g4TimerId);
-                    // 30 cú đấm trong 5s = 100đ, 60đ đạt
-                    let score = Math.min(100, Math.round((g4Count / 30) * 100));
+                    let score = Math.min(100, Math.round((g4Count / 25) * 100));
                     let isPass = score >= 60;
-                    gameResults.push({
-                        id: 4,
-                        name: "4. Cuồng Phong Đấm",
-                        score: score,
-                        isPass: isPass,
-                        text: `${score}/100 điểm (${g4Count} cú đấm)`
-                    });
-
+                    gameResults.push({ name: "4. Cuồng Phong Đấm", score, isPass, text: `${score}/100đ (${g4Count} cú)` });
                     setTimeout(() => {
                         document.getElementById('screen-game-4').classList.add('hidden');
                         currentGameIndex++;
@@ -562,48 +560,26 @@
         function hitGame4() {
             g4Count++;
             document.getElementById('g4-count').textContent = g4Count;
-            let percent = Math.min(100, (g4Count / 30) * 100);
-            document.getElementById('g4-bar').style.width = percent + '%';
+            document.getElementById('g4-bar').style.width = Math.min(100, (g4Count / 25) * 100) + '%';
         }
 
-        // ================= GAME 5 LOGIC (THƯỢNG VÕ CÂN BẰNG) =================
-        let g5BallPos = 50; // %
-        let g5Interval = null;
-        let g5TimeLeft = 8;
-        let g5InSafeTime = 0;
+        // ================= GAME 5: THƯỢNG VÕ CÂN BẰNG =================
+        let g5BallPos = 50, g5Interval = null, g5TimeLeft = 8, g5InSafeTime = 0;
 
         function initGame5() {
             document.getElementById('screen-game-5').classList.remove('hidden');
-            g5BallPos = 50;
-            g5TimeLeft = 8;
-            g5InSafeTime = 0;
-
+            g5BallPos = 50; g5TimeLeft = 8; g5InSafeTime = 0;
             g5Interval = setInterval(() => {
-                // Dao động tự nhiên ngẫu nhiên
-                let drift = (Math.random() - 0.5) * 6;
-                g5BallPos = Math.max(5, Math.min(95, g5BallPos + drift));
+                g5BallPos = Math.max(5, Math.min(95, g5BallPos + (Math.random() - 0.5) * 7));
                 document.getElementById('g5-ball').style.left = g5BallPos + '%';
-
-                // Vùng an toàn từ 33% đến 66%
-                if (g5BallPos >= 33 && g5BallPos <= 66) {
-                    g5InSafeTime += 0.1;
-                }
-
+                if (g5BallPos >= 33 && g5BallPos <= 66) g5InSafeTime += 0.1;
                 g5TimeLeft -= 0.1;
                 document.getElementById('g5-timer').textContent = `Thời gian: ${Math.ceil(g5TimeLeft)}s`;
-
                 if (g5TimeLeft <= 0) {
                     clearInterval(g5Interval);
                     let score = Math.min(100, Math.round((g5InSafeTime / 8) * 100));
                     let isPass = score >= 60;
-                    gameResults.push({
-                        id: 5,
-                        name: "5. Thượng Võ Cân Bằng",
-                        score: score,
-                        isPass: isPass,
-                        text: `${score}/100 điểm`
-                    });
-
+                    gameResults.push({ name: "5. Thượng Võ Cân Bằng", score, isPass, text: `${score}/100đ` });
                     setTimeout(() => {
                         document.getElementById('screen-game-5').classList.add('hidden');
                         currentGameIndex++;
@@ -618,57 +594,83 @@
             document.getElementById('g5-ball').style.left = g5BallPos + '%';
         }
 
-        // ================= HIỂN THỊ KẾT QUẢ CUỐI CÙNG =================
+        // ================= KẾT QUẢ & BẢNG XẾP HẠNG =================
         function showFinalResults() {
             document.getElementById('screen-result').classList.remove('hidden');
-
             const detailsEl = document.getElementById('result-details');
             detailsEl.innerHTML = '';
-
+            
+            let totalScore = 0;
             let allPassed = true;
 
             gameResults.forEach(res => {
+                totalScore += res.score;
                 if (!res.isPass) allPassed = false;
                 const div = document.createElement('div');
                 div.className = "flex justify-between items-center";
-                div.innerHTML = `
-                    <span class="text-slate-400">${res.name}:</span>
-                    <span class="font-bold ${res.isPass ? 'text-emerald-400' : 'text-rose-400'}">${res.text} (${res.isPass ? 'ĐẠT' : 'CHƯA ĐẠT'})</span>
-                `;
+                div.innerHTML = `<span class="text-slate-400">${res.name}:</span><span class="font-bold ${res.isPass ? 'text-emerald-400' : 'text-rose-400'}">${res.text}</span>`;
                 detailsEl.appendChild(div);
             });
 
+            // Lưu điểm vào LocalStorage cho Bảng Xếp Hạng
+            saveScoreToLeaderboard(playerName, totalScore);
+
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = "flex justify-between items-center border-t border-slate-800 pt-2 mt-2";
+            summaryDiv.innerHTML = `<span class="text-slate-400 font-bold">Tổng điểm (2 vòng):</span><span class="font-extrabold text-vovinamGold">${totalScore}/200 điểm</span>`;
+            detailsEl.appendChild(summaryDiv);
+
             const statusDiv = document.createElement('div');
-            statusDiv.className = "flex justify-between items-center border-t border-slate-800 pt-2 mt-2";
-            statusDiv.innerHTML = `
-                <span class="text-slate-400">Trạng thái Passport:</span>
-                <span class="font-extrabold ${allPassed ? 'text-vovinamGold animate-pulse' : 'text-rose-400'}">
-                    ${allPassed ? '✔ ĐÃ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU' : '✖ KHÔNG ĐỦ ĐIỀU KIỆN ĐÓNG DẤU'}
-                </span>
-            `;
+            statusDiv.className = "flex justify-between items-center";
+            statusDiv.innerHTML = `<span class="text-slate-400">Trạng thái Passport:</span><span class="font-extrabold ${allPassed ? 'text-vovinamGold animate-pulse' : 'text-rose-400'}">${allPassed ? '✔ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU' : '✖ CHƯA ĐẠT YÊU CẦU'}</span>`;
             detailsEl.appendChild(statusDiv);
 
-            const iconContainer = document.getElementById('result-icon-container');
-            const svgIcon = document.getElementById('result-svg-icon');
-            const titleEl = document.getElementById('result-title');
-            const subtitleEl = document.getElementById('result-subtitle');
             const qrSection = document.getElementById('qr-section');
-
             if (allPassed) {
-                iconContainer.className = "w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-vovinamGold";
-                svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />`;
-                titleEl.textContent = "HOÀN THÀNH XUẤT SẮC!";
-                titleEl.className = "text-lg font-black text-vovinamGold mb-1 tracking-wider uppercase";
-                subtitleEl.textContent = "Bạn đã chinh phục thành công 2 thử thách Five Worlds.";
                 qrSection.classList.remove('hidden');
             } else {
-                iconContainer.className = "w-14 h-14 bg-gradient-to-br from-rose-500 to-rose-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-rose-400";
-                svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />`;
-                titleEl.textContent = "CHƯA ĐẠT YÊU CẦU!";
-                titleEl.className = "text-lg font-black text-rose-400 mb-1 tracking-wider uppercase";
-                subtitleEl.textContent = "Bạn cần vượt qua cả 2 game đã chọn để đóng dấu.";
                 qrSection.classList.add('hidden');
             }
+        }
+
+        // --- HỆ THỐNG LƯU TRỮ VÀ HIỂN THỊ BXH (LOCALSTORAGE) ---
+        function saveScoreToLeaderboard(name, score) {
+            let lb = JSON.parse(localStorage.getItem('vovinam_leaderboard') || '[]');
+            lb.push({ name, score, date: new Date().toLocaleDateString() });
+            // Sắp xếp điểm từ cao xuống thấp
+            lb.sort((a, b) => b.score - a.score);
+            // Giữ lại top 10
+            lb = lb.slice(0, 10);
+            localStorage.setItem('vovinam_leaderboard', JSON.stringify(lb));
+        }
+
+        function showLeaderboardModal() {
+            const listEl = document.getElementById('leaderboard-list');
+            listEl.innerHTML = '';
+            let lb = JSON.parse(localStorage.getItem('vovinam_leaderboard') || '[]');
+
+            if (lb.length === 0) {
+                listEl.innerHTML = `<div class="text-center text-slate-500 py-4">Chưa có dữ liệu thi đấu!</div>`;
+            } else {
+                lb.forEach((item, index) => {
+                    let rankColor = index === 0 ? 'text-yellow-400 font-black' : index === 1 ? 'text-slate-300 font-bold' : index === 2 ? 'text-amber-600 font-bold' : 'text-slate-400';
+                    let row = document.createElement('div');
+                    row.className = "flex justify-between items-center bg-slate-950/60 p-2.5 rounded-xl border border-slate-800";
+                    row.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 text-center ${rankColor}">#${index + 1}</span>
+                            <span class="font-bold text-white">${item.name}</span>
+                        </div>
+                        <span class="font-extrabold text-vovinamGold">${item.score} đ</span>
+                    `;
+                    listEl.appendChild(row);
+                });
+            }
+            document.getElementById('leaderboard-modal').classList.remove('hidden');
+        }
+
+        function closeLeaderboardModal() {
+            document.getElementById('leaderboard-modal').classList.add('hidden');
         }
     </script>
 </body>
