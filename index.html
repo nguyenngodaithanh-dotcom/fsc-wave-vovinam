@@ -67,7 +67,7 @@
             </button>
 
             <button onclick="showLeaderboardModal()" class="w-full bg-slate-900/80 hover:bg-slate-900 text-vovinamGold border border-vovinamGold/40 font-bold py-2.5 px-4 rounded-xl text-xs transition">
-                🏆 Xem Bảng Xếp Hạng
+                🏆 Xem Bảng Xếp Hạng Public (Realtime)
             </button>
         </div>
 
@@ -275,23 +275,29 @@
 
     </main>
 
-    <!-- MODAL BẢNG XẾP HẠNG -->
+    <!-- MODAL BẢNG XẾP HẠNG REALTIME -->
     <div id="leaderboard-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border-2 border-vovinamGold rounded-2xl max-w-sm w-full p-5 shadow-2xl relative">
             <div class="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
-                <h3 class="text-base font-black text-vovinamGold flex items-center gap-2">🏆 BẢNG XẾP HẠNG VÀNG</h3>
+                <h3 class="text-base font-black text-vovinamGold flex items-center gap-2">
+                    🏆 BXH REALTIME PUBLIC 
+                    <span class="flex h-2 w-2 relative">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                </h3>
                 <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-white font-bold text-base px-2">✕</button>
             </div>
-            <p class="text-[11px] text-slate-400 mb-3">Top vận động viên có tổng điểm cao nhất từ 2 thử thách:</p>
+            <p class="text-[11px] text-slate-400 mb-3">Dữ liệu được cập nhật tự động trực tuyến trên tất cả thiết bị:</p>
             
-            <div id="leaderboard-list" class="space-y-2 max-h-52 overflow-y-auto mb-4 pr-1 text-xs">
-                <!-- Render danh sách BXH qua JS -->
+            <div id="leaderboard-list" class="space-y-2 max-h-60 overflow-y-auto mb-4 pr-1 text-xs">
+                <!-- Render danh sách BXH qua JS từ Firebase Cloud -->
             </div>
 
             <!-- GÓC CÀI ĐẶT BẢO MẬT (RESET BXH) -->
             <div class="border-t border-slate-800 pt-3 mt-2 flex items-center justify-between">
                 <button onclick="promptResetLeaderboard()" class="text-[10px] text-slate-500 hover:text-rose-400 flex items-center gap-1 transition">
-                    ⚙️ Reset BXH
+                    ⚙️ Reset BXH (Cloud)
                 </button>
                 <button onclick="closeLeaderboardModal()" class="bg-vovinamBlue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl text-xs">
                     Đóng
@@ -302,7 +308,7 @@
 
     <!-- FOOTER -->
     <footer class="text-center py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-950/50">
-        FSC x Wave • F5 Night: Five Worlds © 2026[cite: 1]
+        FSC x Wave • F5 Night: Five Worlds © 2026
     </footer>
 
     <!-- JAVASCRIPT LOGIC -->
@@ -311,6 +317,9 @@
         let selectedGameIds = [];
         let currentGameIndex = 0;
         let gameResults = [];
+
+        // FIREBASE REST API DATABASE ENDPOINT
+        const FIREBASE_DB_URL = "https://fsc-wave-vovinam-2026-default-rtdb.firebaseio.com/leaderboard.json";
 
         // --- QUẢN LÝ TÊN & MÀN HÌNH ĐẦU ---
         function submitPlayerName() {
@@ -599,7 +608,7 @@
             document.getElementById('g5-ball').style.left = g5BallPos + '%';
         }
 
-        // ================= KẾT QUẢ & BẢNG XẾP HẠNG =================
+        // ================= KẾT QUẢ & BẢNG XẾP HẠNG REALTIME =================
         function showFinalResults() {
             document.getElementById('screen-result').classList.remove('hidden');
             const detailsEl = document.getElementById('result-details');
@@ -617,7 +626,8 @@
                 detailsEl.appendChild(div);
             });
 
-            saveScoreToLeaderboard(playerName, totalScore);
+            // Tự động đẩy kết quả lên Server Public Cloud
+            saveScoreToCloud(playerName, totalScore);
 
             const summaryDiv = document.createElement('div');
             summaryDiv.className = "flex justify-between items-center border-t border-slate-800 pt-2 mt-2";
@@ -637,37 +647,64 @@
             }
         }
 
-        // --- HỆ THỐNG LƯU TRỮ VÀ BẢO MẬT RESET BXH ---
-        function saveScoreToLeaderboard(name, score) {
-            let lb = JSON.parse(localStorage.getItem('vovinam_leaderboard') || '[]');
-            lb.push({ name, score, date: new Date().toLocaleDateString() });
-            lb.sort((a, b) => b.score - a.score);
-            lb = lb.slice(0, 10);
-            localStorage.setItem('vovinam_leaderboard', JSON.stringify(lb));
+        // --- ĐẨY ĐIỂM SỐ LÊN CLOUD (PUBLIC REALTIME) ---
+        async function saveScoreToCloud(name, score) {
+            const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            const payload = { name, score, time: timeStr, timestamp: Date.now() };
+
+            try {
+                await fetch(FIREBASE_DB_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (err) {
+                console.error("Lỗi khi lưu điểm trực tuyến:", err);
+            }
         }
 
-        function showLeaderboardModal() {
+        // --- LẤY DỮ LIỆU BẢNG XẾP HẠNG REALTIME TỪ CLOUD ---
+        async function fetchLeaderboardFromCloud() {
             const listEl = document.getElementById('leaderboard-list');
-            listEl.innerHTML = '';
-            let lb = JSON.parse(localStorage.getItem('vovinam_leaderboard') || '[]');
+            listEl.innerHTML = `<div class="text-center text-slate-400 py-4 animate-pulse">Đang tải dữ liệu trực tuyến...</div>`;
 
-            if (lb.length === 0) {
-                listEl.innerHTML = `<div class="text-center text-slate-500 py-4">Chưa có dữ liệu thi đấu!</div>`;
-            } else {
-                lb.forEach((item, index) => {
+            try {
+                const res = await fetch(FIREBASE_DB_URL);
+                const data = await res.json();
+                listEl.innerHTML = '';
+
+                if (!data) {
+                    listEl.innerHTML = `<div class="text-center text-slate-500 py-4">Chưa có lượt thi đấu nào!</div>`;
+                    return;
+                }
+
+                // Chuyển object Firebase thành mảng & Sắp xếp điểm giảm dần
+                let lbArray = Object.values(data);
+                lbArray.sort((a, b) => b.score - a.score || b.timestamp - a.timestamp);
+
+                lbArray.slice(0, 15).forEach((item, index) => {
                     let rankColor = index === 0 ? 'text-yellow-400 font-black' : index === 1 ? 'text-slate-300 font-bold' : index === 2 ? 'text-amber-600 font-bold' : 'text-slate-400';
                     let row = document.createElement('div');
                     row.className = "flex justify-between items-center bg-slate-950/60 p-2.5 rounded-xl border border-slate-800";
                     row.innerHTML = `
                         <div class="flex items-center gap-2">
                             <span class="w-6 text-center ${rankColor}">#${index + 1}</span>
-                            <span class="font-bold text-white">${item.name}</span>
+                            <div>
+                                <div class="font-bold text-white">${item.name}</div>
+                                <div class="text-[9px] text-slate-500">${item.time || ''}</div>
+                            </div>
                         </div>
                         <span class="font-extrabold text-vovinamGold">${item.score} đ</span>
                     `;
                     listEl.appendChild(row);
                 });
+            } catch (err) {
+                listEl.innerHTML = `<div class="text-center text-rose-400 py-4">Không thể kết nối máy chủ realtime!</div>`;
             }
+        }
+
+        function showLeaderboardModal() {
+            fetchLeaderboardFromCloud();
             document.getElementById('leaderboard-modal').classList.remove('hidden');
         }
 
@@ -675,13 +712,18 @@
             document.getElementById('leaderboard-modal').classList.add('hidden');
         }
 
-        function promptResetLeaderboard() {
-            const pwd = prompt("Nhập mật khẩu quản trị để reset bảng xếp hạng:");
-            if (pwd === null) return; // Bấm hủy
+        // --- RESET BẢNG XẾP HẠNG TRÊN CLOUD (MẬT KHẨU ADMIN) ---
+        async function promptResetLeaderboard() {
+            const pwd = prompt("Nhập mật khẩu quản trị để reset Bảng Xếp Hạng Trực Tuyến:");
+            if (pwd === null) return;
             if (pwd === "Thanh160209") {
-                localStorage.removeItem('vovinam_leaderboard');
-                showLeaderboardModal(); // Làm mới lại danh sách trống
-                alert("Đã reset Bảng Xếp Hạng thành công!");
+                try {
+                    await fetch(FIREBASE_DB_URL, { method: 'DELETE' });
+                    alert("Đã reset Bảng Xếp Hạng Public thành công!");
+                    fetchLeaderboardFromCloud();
+                } catch (err) {
+                    alert("Có lỗi xảy ra khi reset dữ liệu server!");
+                }
             } else {
                 alert("Mật khẩu không chính xác!");
             }
