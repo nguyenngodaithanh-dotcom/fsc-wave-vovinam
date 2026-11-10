@@ -650,7 +650,8 @@
         // --- ĐẨY ĐIỂM SỐ LÊN CLOUD (PUBLIC REALTIME) ---
         async function saveScoreToCloud(name, score) {
             const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-            const payload = { name: name || "Võ sinh", score: Number(score) || 0, time: timeStr, timestamp: Date.now() };
+            const cleanName = (name && name.trim() !== "") ? name.trim() : "Võ sinh ẩn danh";
+            const payload = { name: cleanName, score: Number(score) || 0, time: timeStr, timestamp: Date.now() };
 
             try {
                 await fetch(FIREBASE_DB_URL, {
@@ -663,7 +664,7 @@
             }
         }
 
-        // --- LẤY DỮ LIỆU BẢNG XẾP HẠNG REALTIME TỪ CLOUD (ĐÃ SỬA LỖI UNDEFINED) ---
+        // --- LẤY DỮ LIỆU BẢNG XẾP HẠNG REALTIME TỪ CLOUD (FIX HIỂN THỊ TÊN CHUẨN XÁC) ---
         async function fetchLeaderboardFromCloud() {
             const listEl = document.getElementById('leaderboard-list');
             listEl.innerHTML = `<div class="text-center text-slate-400 py-4 animate-pulse">Đang tải dữ liệu trực tuyến...</div>`;
@@ -678,33 +679,42 @@
                     return;
                 }
 
-                // Xử lý đọc đúng cấu trúc object dữ liệu của Firebase
                 let rawList = [];
-                if (typeof data === 'object') {
-                    Object.values(data).forEach(val => {
-                        if (val && typeof val === 'object') {
-                            // Nếu dữ liệu dạng { name, score }
-                            if (val.name !== undefined && val.score !== undefined) {
-                                rawList.push(val);
-                            } else {
-                                // Trường hợp bị lồng thêm 1 cấp object/array
-                                Object.values(val).forEach(innerVal => {
-                                    if (innerVal && innerVal.name !== undefined) {
-                                        rawList.push(innerVal);
-                                    }
-                                });
-                            }
+                // Duyệt qua tất cả các key/item do Firebase trả về
+                Object.keys(data).forEach(key => {
+                    let entry = data[key];
+                    if (entry && typeof entry === 'object') {
+                        // Trường hợp dữ liệu chuẩn trực tiếp: { name, score, time, timestamp }
+                        if (entry.name !== undefined || entry.score !== undefined) {
+                            rawList.push({
+                                name: (entry.name && String(entry.name).trim() !== "") ? String(entry.name).trim() : "Võ sinh ẩn danh",
+                                score: Number(entry.score) || 0,
+                                time: entry.time || "",
+                                timestamp: entry.timestamp || 0
+                            });
+                        } else {
+                            // Trường hợp Firebase có các nhánh sâu bên trong
+                            Object.values(entry).forEach(sub => {
+                                if (sub && typeof sub === 'object' && (sub.name !== undefined || sub.score !== undefined)) {
+                                    rawList.push({
+                                        name: (sub.name && String(sub.name).trim() !== "") ? String(sub.name).trim() : "Võ sinh ẩn danh",
+                                        score: Number(sub.score) || 0,
+                                        time: sub.time || "",
+                                        timestamp: sub.timestamp || 0
+                                    });
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                });
 
                 if (rawList.length === 0) {
                     listEl.innerHTML = `<div class="text-center text-slate-500 py-4">Chưa có dữ liệu hợp lệ! Nhấn Reset để làm sạch.</div>`;
                     return;
                 }
 
-                // Sắp xếp điểm giảm dần
-                rawList.sort((a, b) => (b.score || 0) - (a.score || 0) || (b.timestamp || 0) - (a.timestamp || 0));
+                // Sắp xếp giảm dần theo điểm số
+                rawList.sort((a, b) => b.score - a.score || b.timestamp - a.timestamp);
 
                 rawList.slice(0, 20).forEach((item, index) => {
                     let rankColor = index === 0 ? 'text-yellow-400 font-black' : index === 1 ? 'text-slate-300 font-bold' : index === 2 ? 'text-amber-600 font-bold' : 'text-slate-400';
@@ -714,11 +724,11 @@
                         <div class="flex items-center gap-2">
                             <span class="w-6 text-center ${rankColor}">#${index + 1}</span>
                             <div>
-                                <div class="font-bold text-white">${item.name || 'Võ sinh'}</div>
+                                <div class="font-bold text-white">${item.name}</div>
                                 <div class="text-[9px] text-slate-500">${item.time || ''}</div>
                             </div>
                         </div>
-                        <span class="font-extrabold text-vovinamGold">${item.score !== undefined ? item.score : 0} đ</span>
+                        <span class="font-extrabold text-vovinamGold">${item.score} đ</span>
                     `;
                     listEl.appendChild(row);
                 });
