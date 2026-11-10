@@ -1,767 +1,224 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FSC x Wave | F5 Night: Five Worlds Leaderboard</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        vovinamBlue: '#004080',
-                        vovinamDarkBlue: '#00264d',
-                        vovinamGold: '#FFD700',
-                        vovinamRed: '#DC2626',
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
-        }
-        .martial-glow {
-            box-shadow: 0 0 25px rgba(0, 85, 165, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.1);
-        }
-        .gold-glow {
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05152a">
+  <meta name="description" content="FSC x Wave Vovinam — thử thách F5 Night: Five Worlds và bảng xếp hạng trực tuyến.">
+  <title>FSC x Wave | F5 Night: Five Worlds</title>
+  <style>
+    :root{color-scheme:dark;--bg:#06101f;--surface:#102139;--surface2:#0b1b30;--gold:#f6d44a;--blue:#2288e2;--text:#f5f8ff;--muted:#b5c4d8;--line:#254565;--green:#63e0a7;--red:#ff838d}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse 85% 44% at 50% -8%,#124674 0%,transparent 70%),linear-gradient(155deg,#091a30 0%,#020713 100%);color:var(--text);font:500 15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;display:flex;flex-direction:column}
+    button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.57}button:focus-visible,input:focus-visible{outline:3px solid #b7e4ff;outline-offset:2px}a{color:#9ed9ff}p{margin:0}h1,h2,h3{line-height:1.2;margin:0}small{font-size:12px}
+    .hidden{display:none!important}.brandbar{position:relative;overflow:hidden;text-align:center;border-bottom:2px solid var(--gold);padding:20px 18px 18px;background:linear-gradient(100deg,#071e3b,#07519b 48%,#081f3d);box-shadow:0 9px 30px #0004}.brandbar:before,.brandbar:after{content:"";position:absolute;width:150px;height:150px;border:1px solid #ffffff19;transform:rotate(45deg);top:-95px}.brandbar:before{left:3%}.brandbar:after{right:3%}.eyebrow{display:inline-block;background:var(--gold);color:#08142a;font-size:11px;font-weight:900;letter-spacing:.17em;padding:5px 14px;border-radius:99px}.brandbar h1{margin:8px 0 2px;font-weight:950;letter-spacing:-.035em;font-size:clamp(24px,5vw,34px)}.gold{color:var(--gold)}.brandbar p{font-size:12px;color:#d5e7ff;letter-spacing:.025em}
+    main{width:min(100%,500px);margin:auto;padding:25px 14px;flex:1;display:flex;flex-direction:column;justify-content:center}.panel{border:1px solid #3573ae88;background:linear-gradient(155deg,#142a45f5,#0c1a2fed);border-radius:22px;padding:23px 20px;box-shadow:0 18px 50px #0006,0 0 28px #0878c215;backdrop-filter:blur(6px)}.panel.gold-border{border-color:#ddbc4a7d}.center{text-align:center}.mark{width:66px;height:66px;display:grid;place-items:center;margin:0 auto 15px;border-radius:19px;font-size:30px;background:linear-gradient(145deg,#1778d0,#0c254c);border:2px solid var(--gold);box-shadow:0 8px 20px #0008}.panel h2{font-size:21px;font-weight:900;letter-spacing:-.025em}.subtitle{color:var(--muted);font-size:13px;margin:7px 0 18px}.name-field{width:100%;background:#071224;border:1px solid #49637a;border-radius:13px;padding:14px;color:white;text-align:center;outline:none;margin:0 0 12px}.name-field:focus{border-color:var(--gold)}.btn{min-height:47px;width:100%;border:1px solid transparent;border-radius:13px;font-weight:900;font-size:13px;letter-spacing:.035em;padding:11px 15px;transition:transform .12s,filter .12s,background .12s}.btn:active:not(:disabled){transform:scale(.986)}.btn.primary{background:linear-gradient(90deg,#efb637,var(--gold),#ebb72c);color:#071327;box-shadow:0 5px 23px #f6d44a31}.btn.blue{background:linear-gradient(95deg,#1160ae,#0f82d8);color:white}.btn.ghost{background:#0a1a30;color:var(--gold);border-color:#ae8b3e88}.btn.secondary{background:#253954;color:#f3f7ff;border-color:#445b75}.btn+.btn{margin-top:9px}.toolbar{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-bottom:12px}.tag{background:#07182d;border:1px solid #345473;border-radius:9px;padding:6px 9px;font-size:12px;color:#d6e5ff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:70%}.meta{font-size:12px;color:#abc1d8}.challenge-list{display:grid;gap:10px;margin-top:15px;margin-bottom:16px}.challenge{display:flex;text-align:left;align-items:center;gap:10px;padding:13px 12px;border-radius:13px;border:1px solid #36516d;background:#0a192d;transition:border-color .12s,background .12s}.challenge:hover{border-color:#eecf6f}.challenge[aria-pressed="true"]{background:#163c58;border-color:var(--gold);box-shadow:0 0 0 1px #f6d44a44}.challenge .em{font-size:22px;width:34px;text-align:center}.challenge strong{display:block;font-size:13px}.challenge .desc{display:block;color:#a9c2d8;font-size:11px}.challenge .tick{width:18px;height:18px;flex:none;border:1px solid #bba14a;border-radius:5px;margin-left:auto;display:grid;place-items:center;color:#0a1a30;font-size:13px}.challenge[aria-pressed="true"] .tick{background:var(--gold)}.counter{border:1px solid #244965;background:#091b30;padding:5px 9px;border-radius:8px;font-weight:800;color:#bfe2ff;font-size:12px}.game-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}.game-head h2{font-size:16px;color:var(--gold)}.instruction{font-size:13px;color:#cadaec;margin-bottom:14px}.arena{height:280px;position:relative;border-radius:15px;border:2px dashed #225888;background:#061123;overflow:hidden;display:grid;place-items:center}.target{position:absolute;left:0;top:0;width:64px;height:64px;touch-action:manipulation;border:2px solid var(--gold);border-radius:50%;background:linear-gradient(145deg,#da3a3a,#1268be);color:white;font-weight:900;font-size:12px;box-shadow:0 0 19px #f8cb4c4c}.game-start{margin-top:14px}.options{display:grid;gap:10px}.option{text-align:left;width:100%;padding:13px;border-radius:12px;border:1px solid #315678;background:#0a1c33;color:white;font-size:13px;font-weight:650}.option.correct{background:#145439;border-color:var(--green)}.option.wrong{background:#652832;border-color:var(--red)}.option:disabled{opacity:1}.question{font-size:15px;font-weight:800;margin-bottom:15px;min-height:46px}.feedback{min-height:25px;margin-top:9px;font-weight:800;font-size:13px}.success{color:var(--green)}.error{color:var(--red)}.track{height:95px;position:relative;border:1px solid #265177;background:#08172b;border-radius:12px;overflow:hidden;margin:19px 0}.center-zone{position:absolute;left:33%;width:34%;top:0;bottom:0;background:#f6d44a2a;border-left:2px solid var(--gold);border-right:2px solid var(--gold);display:grid;place-items:center;font-weight:800;color:var(--gold);font-size:12px}.pointer{position:absolute;top:0;bottom:0;width:10px;left:0%;background:#f54f57;border-radius:5px;box-shadow:0 0 14px #fc5353}.meter{height:26px;background:#071629;border:1px solid #335475;padding:4px;border-radius:99px;overflow:hidden;margin:14px 0}.meter div{height:100%;width:0;background:linear-gradient(90deg,#1670c4,#f6d44a,#f35658);border-radius:99px;transition:width 80ms}.big-number{text-align:center;margin:10px 0;font-size:19px;font-weight:850;color:var(--gold)}.punch{padding:23px 14px;font-size:18px;touch-action:manipulation}.balance-track{height:48px;background:#06172b;border:1px solid #335475;border-radius:99px;position:relative;margin:24px 0 28px}.balance-zone{position:absolute;left:33%;width:34%;height:100%;background:#21a16b35;border-left:2px solid #66dda6;border-right:2px solid #66dda6}.balance-ball{position:absolute;left:50%;top:7px;width:32px;height:32px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px #ffe557;transform:translateX(-50%)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actions button{touch-action:manipulation}
+    .scorelines{display:grid;gap:10px;margin:17px 0;background:#071527;border:1px solid #2b4969;padding:13px;border-radius:13px;font-size:13px}.scoreline{display:flex;justify-content:space-between;gap:10px;align-items:center}.scoreline strong{white-space:nowrap}.scoreline.total{border-top:1px solid #26425b;padding-top:10px;font-weight:900}.status{font-size:12px;border:1px solid #4a6273;background:#10233c;padding:10px 12px;border-radius:11px;margin:12px 0;min-height:41px}.status:empty{display:none}.qrgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:17px 0}.qrbox{background:#07182c;border:1px solid #2f5c89;padding:12px 6px;border-radius:12px;text-align:center}.qrbox img{display:block;width:112px;height:112px;max-width:100%;margin:0 auto 7px;border:7px solid white;background:white;border-radius:8px}.qrbox strong{color:var(--gold);display:block;font-size:12px}.qrbox a{font-size:11px}.note{font-size:11px;color:#9eb5ca}.end-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+    .modal{position:fixed;inset:0;padding:16px;z-index:100;background:#000c;backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center}.modal-panel{width:min(100%,450px);max-height:min(85vh,720px);background:#0b1a30;border:2px solid #d5b24b;border-radius:19px;box-shadow:0 20px 70px #000b;padding:19px;display:flex;flex-direction:column}.modal-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:13px;border-bottom:1px solid #294662}.modal-top h2{font-size:17px;color:var(--gold)}.close{width:36px;height:36px;border-radius:8px;background:#213a55;border:0;color:white;font-size:20px}.list{max-height:360px;overflow:auto;display:grid;gap:7px;margin:13px 0}.rank{display:flex;align-items:center;gap:10px;background:#07172b;border:1px solid #234060;padding:10px;border-radius:11px}.rank-num{width:30px;text-align:center;font-weight:900;color:#b5c6dc}.rank:nth-child(1) .rank-num{color:var(--gold)}.rank:nth-child(2) .rank-num{color:#d7e3f1}.rank:nth-child(3) .rank-num{color:#eaa46d}.rank-body{min-width:0;flex:1}.rank-name{font-weight:800;overflow-wrap:anywhere;font-size:13px}.rank-time{color:#9eb0c6;font-size:11px}.rank-score{color:var(--gold);font-weight:900;white-space:nowrap}.foot{margin-top:auto;color:#93aac1;text-align:center;font-size:11px;padding:15px;border-top:1px solid #1f3a54;background:#06101aaf}.foot strong{color:#bcd5ea}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media(max-width:420px){.panel{padding:18px 14px}.brandbar{padding:17px 12px}main{padding:19px 11px}.modal-panel{padding:15px}.arena{height:260px}.tag{max-width:64%}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
 </head>
-<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-vovinamGold selection:text-slate-900">
+<body>
+  <header class="brandbar">
+    <span class="eyebrow">F5 NIGHT: FIVE WORLDS</span>
+    <h1>FSC x WAVE <span class="gold">VOVINAM</span></h1>
+    <p>Võ Đạo Sáng Tương Lai • Đấu Trường Vinh Quang</p>
+  </header>
+  <main>
+    <section id="screen-name" class="panel center" aria-labelledby="name-title">
+      <div class="mark">🥋</div><h2 id="name-title">ĐĂNG KÝ VẬN ĐỘNG VIÊN</h2>
+      <p class="subtitle">Nhập tên của bạn để ghi danh vào bảng xếp hạng sự kiện!</p>
+      <label class="sr-only" for="player-name-input">Tên người chơi</label>
+      <input id="player-name-input" class="name-field" placeholder="Ví dụ: Nguyễn Văn A..." maxlength="25" autocomplete="name">
+      <button class="btn primary" id="btn-enter" type="button">BẮT ĐẦU CHINH PHỤC 🚀</button>
+      <button class="btn ghost" type="button" data-open-board>🏆 XEM BẢNG XẾP HẠNG ONLINE</button>
+    </section>
 
-    <!-- HEADER -->
-    <header class="bg-gradient-to-r from-vovinamDarkBlue via-vovinamBlue to-vovinamDarkBlue border-b-2 border-vovinamGold shadow-2xl py-4 px-6 text-center relative overflow-hidden">
-        <div class="absolute -right-10 -top-10 w-32 h-32 bg-vovinamGold/10 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
-        
-        <div class="max-w-md mx-auto relative z-10">
-            <span class="bg-vovinamGold text-slate-950 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-widest shadow-md">F5 Night: Five Worlds</span>
-            <h1 class="text-2xl font-black mt-2 tracking-tight text-white drop-shadow-md">FSC x WAVE <span class="text-vovinamGold">VOVINAM</span></h1>
-            <p class="text-xs text-blue-200 mt-1 font-medium tracking-wide">Võ Đạo Sáng Tương Lai • Đấu Trường Vinh Quang</p>
-        </div>
-    </header>
+    <section id="screen-select" class="panel hidden" aria-labelledby="select-title">
+      <div class="toolbar"><span id="welcome-player-tag" class="tag">VĐV</span><span class="meta">Chọn 2/5 thử thách</span></div>
+      <h2 id="select-title" class="center">CHỌN 2 THẾ GIỚI THI ĐẤU</h2>
+      <p class="subtitle center">Tự chọn hai nội dung, mỗi nội dung tối đa 100 điểm.</p>
+      <div class="challenge-list" id="challenge-list">
+        <button type="button" class="challenge" data-game="1" aria-pressed="false"><span class="em">⚡</span><span><strong>1. PHẢN XẠ NHANH LẸ</strong><span class="desc">Chạm bao đấm trong 10 giây</span></span><span class="tick" aria-hidden="true"></span></button>
+        <button type="button" class="challenge" data-game="2" aria-pressed="false"><span class="em">📜</span><span><strong>2. TRÍ TUỆ VÕ ĐẠO</strong><span class="desc">5 câu trắc nghiệm Vovinam</span></span><span class="tick" aria-hidden="true"></span></button>
+        <button type="button" class="challenge" data-game="3" aria-pressed="false"><span class="em">🎯</span><span><strong>3. MẮT THẦN VÕ SĨ</strong><span class="desc">Định tâm chính xác qua 3 lượt</span></span><span class="tick" aria-hidden="true"></span></button>
+        <button type="button" class="challenge" data-game="4" aria-pressed="false"><span class="em">💥</span><span><strong>4. CUỒNG PHONG ĐẤM</strong><span class="desc">Đấm liên hoàn trong 5 giây</span></span><span class="tick" aria-hidden="true"></span></button>
+        <button type="button" class="challenge" data-game="5" aria-pressed="false"><span class="em">🧘</span><span><strong>5. THƯỢNG VÕ CÂN BẰNG</strong><span class="desc">Giữ quả cầu trong vùng an toàn 8 giây</span></span><span class="tick" aria-hidden="true"></span></button>
+      </div>
+      <button id="btn-start-selected" class="btn primary" type="button" disabled>HÃY CHỌN ĐỦ 2 GAME 🥋</button>
+    </section>
 
-    <!-- MAIN CONTAINER -->
-    <main class="max-w-md mx-auto w-full p-4 flex-grow flex flex-col justify-center">
+    <section id="screen-game-1" class="panel hidden" aria-labelledby="game-1-title">
+      <div class="game-head"><h2 id="game-1-title">⚡ PHẢN XẠ 10 GIÂY</h2><span class="counter" id="g1-timer">Thời gian: 10s</span></div>
+      <p class="instruction">Chạm liên tục vào <strong class="gold">Bao Đấm</strong> xuất hiện ngẫu nhiên!</p>
+      <div class="arena" id="g1-arena"><span id="g1-msg" class="meta">Nhấn nút dưới đây để bắt đầu!</span><button id="g1-target" class="target hidden" type="button">💥 ĐẤM</button></div>
+      <button id="btn-start-g1" class="btn blue game-start" type="button">SẴN SÀNG - BẮT ĐẦU!</button>
+    </section>
 
-        <!-- MÀN HÌNH 0: NHẬP TÊN NGƯỜI CHƠI -->
-        <div id="screen-name" class="bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-6 text-center martial-glow backdrop-blur-md">
-            <div class="w-16 h-16 bg-gradient-to-br from-vovinamBlue to-vovinamDarkBlue rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl border-2 border-vovinamGold">
-                <span class="text-2xl">🥋</span>
-            </div>
-            <h2 class="text-xl font-black mb-2 text-white tracking-wide">ĐĂNG KÝ VẬN ĐỘNG VIÊN</h2>
-            <p class="text-xs text-slate-300 mb-5">Nhập tên của bạn để ghi danh vào Bảng Xếp Hạng sự kiện!</p>
-            
-            <input type="text" id="player-name-input" placeholder="Ví dụ: Nguyễn Văn A..." maxlength="25" class="w-full bg-slate-950 border border-slate-700 focus:border-vovinamGold rounded-xl p-3 text-sm text-center text-white outline-none mb-4 shadow-inner">
-            
-            <button onclick="submitPlayerName()" class="w-full bg-gradient-to-r from-yellow-500 via-vovinamGold to-yellow-600 hover:from-yellow-400 text-slate-950 font-black py-3.5 px-6 rounded-xl transition duration-200 shadow-xl gold-glow tracking-wider text-xs uppercase mb-3">
-                BẮT ĐẦU CHINH PHỤC 🚀
-            </button>
+    <section id="screen-game-2" class="panel hidden" aria-labelledby="game-2-title">
+      <div class="game-head"><h2 id="game-2-title">📜 TRÍ TUỆ VÕ ĐẠO</h2><span class="counter" id="quiz-progress">Câu 1/5</span></div>
+      <div class="question" id="quiz-question"></div><div class="options" id="quiz-options"></div><div id="quiz-feedback" class="feedback" role="status"></div>
+    </section>
 
-            <button onclick="showLeaderboardModal()" class="w-full bg-slate-900/80 hover:bg-slate-900 text-vovinamGold border border-vovinamGold/40 font-bold py-2.5 px-4 rounded-xl text-xs transition">
-                🏆 Xem Bảng Xếp Hạng Public (Realtime)
-            </button>
-        </div>
+    <section id="screen-game-3" class="panel hidden" aria-labelledby="game-3-title">
+      <div class="game-head"><h2 id="game-3-title">🎯 MẮT THẦN VÕ SĨ</h2><span class="counter" id="g3-round">Lượt: 1/3</span></div>
+      <p class="instruction">Bấm <strong class="gold">ĐỊNH TÂM</strong> khi vạch đỏ vào vùng mục tiêu vàng!</p>
+      <div class="track"><div class="center-zone">TÂM</div><div class="pointer" id="g3-pointer"></div></div>
+      <button id="btn-lock-g3" class="btn primary" type="button">🎯 ĐỊNH TÂM NGAY!</button>
+    </section>
 
-        <!-- MÀN HÌNH 1: CHỌN 2 TRONG 5 GAME -->
-        <div id="screen-select" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
-            <div class="flex justify-between items-center mb-3">
-                <span id="welcome-player-tag" class="text-xs font-bold text-vovinamGold bg-slate-900/80 px-2.5 py-1 rounded-lg border border-vovinamBlue/30">VĐV: ...</span>
-                <span class="text-xs font-bold text-slate-400">Chọn 2/5 Thử Thách</span>
-            </div>
-            <h2 class="text-lg font-black mb-1 text-white tracking-wide">CHỌN 2 THẾ GIỚI THI ĐẤU</h2>
-            <p class="text-xs text-slate-300 mb-4">Tổng điểm 2 vòng sẽ quyết định thứ hạng trên BXH!</p>
+    <section id="screen-game-4" class="panel hidden" aria-labelledby="game-4-title">
+      <div class="game-head"><h2 id="game-4-title">💥 CUỒNG PHONG ĐẤM</h2><span class="counter" id="g4-timer">Thời gian: 5s</span></div>
+      <p class="instruction">Bấm liên tục để tích lũy sức mạnh, 25 cú là đạt tối đa 100 điểm!</p>
+      <div class="meter"><div id="g4-bar"></div></div><div class="big-number">Số cú đấm: <span id="g4-count">0</span></div>
+      <button id="btn-hit-g4" class="btn blue punch" type="button">💥 ĐẤM LIÊN HOÀN! 💥</button>
+    </section>
 
-            <div class="space-y-2 text-left mb-4">
-                <div onclick="toggleGameSelect(1)" id="card-game-1" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <span class="text-lg">⚡</span>
-                        <div>
-                            <div class="text-xs font-bold text-slate-100">1. Phản Xạ Nhanh Lẹ (10s)</div>
-                            <div class="text-[10px] text-slate-400">Đấm chuẩn xác bao đấm xuất hiện</div>
-                        </div>
-                    </div>
-                    <input type="checkbox" id="chk-game-1" class="w-4 h-4 accent-yellow-400 pointer-events-none">
-                </div>
+    <section id="screen-game-5" class="panel hidden" aria-labelledby="game-5-title">
+      <div class="game-head"><h2 id="game-5-title">🧘 THƯỢNG VÕ CÂN BẰNG</h2><span class="counter" id="g5-timer">Thời gian: 8s</span></div>
+      <p class="instruction">Dùng hai nút trái/phải để giữ quả cầu trong vùng an toàn!</p>
+      <div class="balance-track"><div class="balance-zone"></div><div class="balance-ball" id="g5-ball"></div></div>
+      <div class="actions"><button id="btn-g5-left" class="btn secondary" type="button">◄ SANG TRÁI</button><button id="btn-g5-right" class="btn secondary" type="button">SANG PHẢI ►</button></div>
+    </section>
 
-                <div onclick="toggleGameSelect(2)" id="card-game-2" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <span class="text-lg">📜</span>
-                        <div>
-                            <div class="text-xs font-bold text-slate-100">2. Trí Tuệ Võ Đạo</div>
-                            <div class="text-[10px] text-slate-400">Trắc nghiệm lịch sử Vovinam (5 câu)</div>
-                        </div>
-                    </div>
-                    <input type="checkbox" id="chk-game-2" class="w-4 h-4 accent-yellow-400 pointer-events-none">
-                </div>
+    <section id="screen-result" class="panel gold-border center hidden" aria-labelledby="result-title">
+      <div class="mark" aria-hidden="true">🏅</div><h2 id="result-title">HOÀN THÀNH THỬ THÁCH!</h2>
+      <p class="subtitle">Tổng kết thành tích thi đấu của bạn</p><div class="scorelines" id="result-details"></div>
+      <div id="save-status" class="status" role="status" aria-live="polite"></div>
+      <button id="btn-retry-save" class="btn ghost hidden" type="button">↻ THỬ LƯU ĐIỂM LẠI</button>
+      <div id="qr-section" class="qrgrid hidden">
+        <div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https%3A%2F%2Fforms.gle%2Fexr2YxBjpCTnV7SA6" alt="QR đăng ký CLB FSC x Wave" loading="lazy"><strong>📝 ĐĂNG KÝ CLB</strong><a href="https://forms.gle/exr2YxBjpCTnV7SA6" target="_blank" rel="noopener noreferrer">Mở Google Form</a></div>
+        <div class="qrbox"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https%3A%2F%2Fwww.facebook.com%2Fpeople%2FFSC-x-Wave%2F61596077883921%2F" alt="QR fanpage FSC x Wave" loading="lazy"><strong>🌐 FANPAGE CLB</strong><a href="https://www.facebook.com/people/FSC-x-Wave/61596077883921/" target="_blank" rel="noopener noreferrer">Mở Fanpage</a></div>
+      </div>
+      <p id="passport-note" class="note"></p>
+      <div class="end-actions"><button class="btn blue" type="button" data-open-board>🏆 XEM BXH</button><button class="btn secondary" type="button" id="btn-replay">CHƠI LẠI ⟳</button></div>
+    </section>
+  </main>
 
-                <div onclick="toggleGameSelect(3)" id="card-game-3" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <span class="text-lg">🎯</span>
-                        <div>
-                            <div class="text-xs font-bold text-slate-100">3. Mắt Thần Võ Sĩ</div>
-                            <div class="text-[10px] text-slate-400">Căn thời điểm định tâm chuẩn xác</div>
-                        </div>
-                    </div>
-                    <input type="checkbox" id="chk-game-3" class="w-4 h-4 accent-yellow-400 pointer-events-none">
-                </div>
-
-                <div onclick="toggleGameSelect(4)" id="card-game-4" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <span class="text-lg">💥</span>
-                        <div>
-                            <div class="text-xs font-bold text-slate-100">4. Cuồng Phong Đấm Thần Tốc</div>
-                            <div class="text-[10px] text-slate-400">Liên hoàn đấm tích năng lượng (5s)</div>
-                        </div>
-                    </div>
-                    <input type="checkbox" id="chk-game-4" class="w-4 h-4 accent-yellow-400 pointer-events-none">
-                </div>
-
-                <div onclick="toggleGameSelect(5)" id="card-game-5" class="cursor-pointer bg-slate-900/80 border border-slate-700 hover:border-vovinamGold p-2.5 rounded-xl transition flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <span class="text-lg">🧘</span>
-                        <div>
-                            <div class="text-xs font-bold text-slate-100">5. Thượng Võ Cân Bằng</div>
-                            <div class="text-[10px] text-slate-400">Giữ thăng bằng quả cầu (8s)</div>
-                        </div>
-                    </div>
-                    <input type="checkbox" id="chk-game-5" class="w-4 h-4 accent-yellow-400 pointer-events-none">
-                </div>
-            </div>
-
-            <button id="btn-start-selected" onclick="startSelectedGames()" disabled class="w-full bg-slate-700 text-slate-400 font-black py-3 px-6 rounded-xl transition duration-200 shadow-xl tracking-wider text-xs uppercase cursor-not-allowed">
-                HÃY CHỌN ĐỦ 2 GAME 🥋
-            </button>
-        </div>
-
-        <!-- GAME 1: PHẢN XẠ 10 GIÂY -->
-        <div id="screen-game-1" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
-            <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">⚡ PHẢN XẠ 10 GIÂY</span>
-                <span id="g1-timer" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Thời gian: 10s</span>
-            </div>
-            <p class="text-xs text-slate-300 mb-3">Chạm liên tục vào <span class="text-vovinamGold font-bold">Bao Đấm</span> xuất hiện ngẫu nhiên!</p>
-            
-            <div id="g1-arena" class="relative w-full h-[280px] bg-slate-950/80 rounded-xl border-2 border-dashed border-vovinamBlue/40 overflow-hidden flex items-center justify-center">
-                <div id="g1-msg" class="text-slate-400 text-xs font-semibold pointer-events-none">Nhấn nút bên dưới để bắt đầu!</div>
-                <div id="g1-target" onclick="hitG1Target()" class="hidden absolute w-16 h-16 bg-gradient-to-br from-red-600 to-vovinamBlue rounded-full border-2 border-vovinamGold flex items-center justify-center cursor-pointer active:scale-90 transition-transform">
-                    <span class="text-xs font-black text-white">💥 ĐẤM</span>
-                </div>
-            </div>
-
-            <button id="btn-start-g1" onclick="runGame1()" class="mt-4 w-full bg-gradient-to-r from-blue-600 to-vovinamBlue text-white font-bold py-3 px-4 rounded-xl text-xs shadow-lg">
-                SẴN SÀNG - BẮT ĐẦU!
-            </button>
-        </div>
-
-        <!-- GAME 2: TRẮC NGHIỆM VÕ ĐẠO -->
-        <div id="screen-game-2" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 martial-glow backdrop-blur-md">
-            <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">📜 TRÍ TUỆ VÕ ĐẠO</span>
-                <span id="quiz-progress" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Câu: 1/5</span>
-            </div>
-            <h3 id="quiz-question" class="text-sm font-bold mb-4 text-slate-100 min-h-[50px]">Đang tải câu hỏi...</h3>
-            <div id="quiz-options" class="space-y-2.5"></div>
-            <div id="quiz-feedback" class="mt-3 text-xs font-semibold text-center min-h-[24px]"></div>
-        </div>
-
-        <!-- GAME 3: MẮT THẦN VÕ SĨ -->
-        <div id="screen-game-3" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
-            <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">🎯 MẮT THẦN VÕ SĨ</span>
-                <span id="g3-round" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Lượt: 1/3</span>
-            </div>
-            <p class="text-xs text-slate-300 mb-3">Bấm nút <span class="text-vovinamGold font-bold">ĐỊNH TÂM</span> khi vạch đỏ chạy vào mục tiêu vàng!</p>
-            
-            <div class="relative w-full h-[160px] bg-slate-950/80 rounded-xl border-2 border-vovinamBlue/40 overflow-hidden flex items-center justify-center mb-4">
-                <div class="w-16 h-full bg-vovinamGold/20 border-x-2 border-vovinamGold flex items-center justify-center">
-                    <span class="text-[10px] font-bold text-vovinamGold">TÂM</span>
-                </div>
-                <div id="g3-pointer" class="absolute top-0 bottom-0 w-3 bg-red-500 shadow-[0_0_10px_#ef4444] rounded-full left-0"></div>
-            </div>
-
-            <button id="btn-lock-g3" onclick="lockGame3()" class="w-full bg-gradient-to-r from-yellow-500 to-vovinamGold text-slate-950 font-black py-3 px-4 rounded-xl text-xs shadow-lg">
-                🎯 ĐỊNH TÂM NGAY!
-            </button>
-        </div>
-
-        <!-- GAME 4: CUỒNG PHONG ĐẤM THẦN TỐC -->
-        <div id="screen-game-4" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
-            <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">💥 CUỒNG PHONG ĐẤM (5s)</span>
-                <span id="g4-timer" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Thời gian: 5s</span>
-            </div>
-            <p class="text-xs text-slate-300 mb-3">Bấm dồn dập vào nút dưới đây để tích lũy năng lượng đấm!</p>
-
-            <div class="w-full bg-slate-950 h-7 rounded-full border border-slate-700 p-1 mb-3 overflow-hidden">
-                <div id="g4-bar" class="bg-gradient-to-r from-blue-500 via-vovinamGold to-red-500 h-full rounded-full transition-all duration-75 w-0"></div>
-            </div>
-            <div class="text-xs font-bold text-vovinamGold mb-4">Số cú đấm: <span id="g4-count">0</span></div>
-
-            <button onclick="hitGame4()" class="w-full bg-gradient-to-r from-red-600 via-vovinamBlue to-vovinamDarkBlue text-white font-black py-6 rounded-2xl text-base shadow-xl active:scale-95 transition-transform">
-                💥 ĐẤM LIÊN HOÀN! 💥
-            </button>
-        </div>
-
-        <!-- GAME 5: THƯỢNG VÕ CÂN BẰNG -->
-        <div id="screen-game-5" class="hidden bg-slate-800/90 border-2 border-vovinamBlue/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
-            <div class="flex justify-between items-center mb-3 text-sm">
-                <span class="font-extrabold text-vovinamGold">🧘 THƯỢNG VÕ CÂN BẰNG (8s)</span>
-                <span id="g5-timer" class="bg-vovinamDarkBlue text-blue-200 border border-blue-500/40 px-3 py-1 rounded-lg text-xs font-bold">Thời gian: 8s</span>
-            </div>
-            <p class="text-xs text-slate-300 mb-3">Nhấn 2 nút Trái/Phải liên tục để giữ quả cầu trong vùng xanh!</p>
-
-            <div class="relative w-full h-12 bg-slate-950 rounded-full border border-slate-700 p-1 mb-6 flex items-center">
-                <div class="absolute left-1/2 -translate-x-1/2 w-1/3 h-full bg-emerald-500/20 border-x-2 border-emerald-400 rounded-lg"></div>
-                <div id="g5-ball" class="absolute w-8 h-8 bg-vovinamGold rounded-full shadow-[0_0_12px_#ffd700] transition-all duration-75 left-1/2 -translate-x-1/2"></div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <button onmousedown="moveG5(-10)" ontouchstart="moveG5(-10)" class="bg-slate-700 active:bg-vovinamBlue text-white font-black py-4 rounded-xl text-xs">◄ SANG TRÁI</button>
-                <button onmousedown="moveG5(10)" ontouchstart="moveG5(10)" class="bg-slate-700 active:bg-vovinamBlue text-white font-black py-4 rounded-xl text-xs">SANG PHẢI ►</button>
-            </div>
-        </div>
-
-        <!-- MÀN HÌNH KẾT QUẢ & CLUB PASSPORT -->
-        <div id="screen-result" class="hidden bg-slate-800/90 border-2 border-vovinamGold/60 rounded-2xl p-5 text-center martial-glow backdrop-blur-md">
-            <div id="result-icon-container" class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-xl border-2 border-vovinamGold">
-                <svg id="result-svg-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                </svg>
-            </div>
-            <h2 id="result-title" class="text-lg font-black text-vovinamGold mb-1 tracking-wider uppercase">HOÀN THÀNH XUẤT SẮC!</h2>
-            <p id="result-subtitle" class="text-[11px] text-slate-300 mb-2">Tổng kết thành tích thi đấu của bạn.</p>
-            
-            <div id="result-details" class="bg-slate-950/80 p-3 rounded-xl border border-vovinamBlue/40 text-left text-xs space-y-2 mb-4 shadow-inner">
-                <!-- Render kết quả qua JS -->
-            </div>
-
-            <!-- 2 MÃ QR (ĐĂNG KÝ & FANPAGE) -->
-            <div id="qr-section" class="grid grid-cols-2 gap-3 mb-3">
-                <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
-                    <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://forms.gle/exr2YxBjpCTnV7SA6" alt="QR Đăng ký" class="w-24 h-24 rounded object-contain">
-                    </div>
-                    <span class="text-[11px] font-bold text-vovinamGold">📝 ĐĂNG KÝ CLB</span>
-                    <span class="text-[9px] text-slate-400">Quét điền Form</span>
-                </div>
-
-                <div class="bg-slate-900/90 p-2.5 rounded-xl border border-blue-500/30 flex flex-col items-center shadow-lg">
-                    <div class="bg-white p-2 rounded-lg mb-1.5 shadow-inner">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://www.facebook.com/people/FSC-x-Wave/61596077883921/" alt="QR Fanpage" class="w-24 h-24 rounded object-contain">
-                    </div>
-                    <span class="text-[11px] font-bold text-blue-400">🌐 FANPAGE CLB</span>
-                    <span class="text-[9px] text-slate-400">Quét theo dõi Page</span>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2">
-                <button onclick="showLeaderboardModal()" class="bg-vovinamBlue hover:bg-blue-600 text-white font-bold py-2.5 px-3 rounded-xl text-xs shadow-md">
-                    🏆 Xem BXH
-                </button>
-                <button onclick="location.reload()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs border border-slate-600 shadow-md">
-                    Chơi lại ⟳
-                </button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- MODAL BẢNG XẾP HẠNG REALTIME -->
-    <div id="leaderboard-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border-2 border-vovinamGold rounded-2xl max-w-sm w-full p-5 shadow-2xl relative">
-            <div class="flex justify-between items-center mb-3 border-b border-slate-800 pb-2">
-                <h3 class="text-base font-black text-vovinamGold flex items-center gap-2">
-                    🏆 BXH REALTIME PUBLIC 
-                    <span class="flex h-2 w-2 relative">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                    </span>
-                </h3>
-                <button onclick="closeLeaderboardModal()" class="text-slate-400 hover:text-white font-bold text-base px-2">✕</button>
-            </div>
-            <p class="text-[11px] text-slate-400 mb-3">Dữ liệu được cập nhật tự động trực tuyến trên tất cả thiết bị:</p>
-            
-            <div id="leaderboard-list" class="space-y-2 max-h-60 overflow-y-auto mb-4 pr-1 text-xs">
-                <!-- Render danh sách BXH qua JS từ Firebase Cloud -->
-            </div>
-
-            <!-- GÓC CÀI ĐẶT BẢO MẬT (RESET BXH) -->
-            <div class="border-t border-slate-800 pt-3 mt-2 flex items-center justify-between">
-                <button onclick="promptResetLeaderboard()" class="text-[10px] text-slate-500 hover:text-rose-400 flex items-center gap-1 transition">
-                    ⚙️ Reset BXH (Cloud)
-                </button>
-                <button onclick="closeLeaderboardModal()" class="bg-vovinamBlue hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl text-xs">
-                    Đóng
-                </button>
-            </div>
-        </div>
+  <div id="leaderboard-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="board-title">
+    <div class="modal-panel"><div class="modal-top"><h2 id="board-title">🏆 BXH ONLINE • FSC x WAVE</h2><button class="close" type="button" id="btn-close-board" aria-label="Đóng bảng xếp hạng">×</button></div>
+      <p class="note" style="margin:9px 0 0">Bảng xếp hạng tự làm mới mỗi 5 giây khi đang mở.</p>
+      <div id="leaderboard-list" class="list" aria-live="polite"></div>
+      <div id="leaderboard-status" class="note" role="status"></div>
+      <button class="btn secondary" id="btn-refresh-board" type="button" style="margin-top:12px">↻ LÀM MỚI BẢNG XẾP HẠNG</button>
     </div>
+  </div>
+  <footer class="foot"><strong>FSC x Wave</strong> • F5 Night: Five Worlds © 2026</footer>
 
-    <!-- FOOTER -->
-    <footer class="text-center py-3 text-[11px] text-slate-400 border-t border-slate-800 bg-slate-950/50">
-        FSC x Wave • F5 Night: Five Worlds © 2026
-    </footer>
-
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        let playerName = "";
-        let selectedGameIds = [];
-        let currentGameIndex = 0;
-        let gameResults = [];
-
-        // FIREBASE REST API DATABASE ENDPOINT
-        const FIREBASE_DB_URL = "https://fsc-wave-vovinam-2026-default-rtdb.firebaseio.com/leaderboard.json";
-
-        // --- QUẢN LÝ TÊN & MÀN HÌNH ĐẦU ---
-        function submitPlayerName() {
-            const input = document.getElementById('player-name-input');
-            const name = input.value.trim();
-            if (!name) {
-                alert("Vui lòng nhập tên của bạn trước khi bắt đầu!");
-                input.focus();
-                return;
-            }
-            playerName = name;
-            document.getElementById('welcome-player-tag').textContent = `VĐV: ${playerName}`;
-            document.getElementById('screen-name').classList.add('hidden');
-            document.getElementById('screen-select').classList.remove('hidden');
-        }
-
-        // --- CHỌN 2/5 GAME ---
-        function toggleGameSelect(id) {
-            const chk = document.getElementById(`chk-game-${id}`);
-            const card = document.getElementById(`card-game-${id}`);
-
-            if (selectedGameIds.includes(id)) {
-                selectedGameIds = selectedGameIds.filter(gId => gId !== id);
-                chk.checked = false;
-                card.classList.remove('border-vovinamGold', 'bg-vovinamBlue/20');
-            } else {
-                if (selectedGameIds.length >= 2) return;
-                selectedGameIds.push(id);
-                chk.checked = true;
-                card.classList.add('border-vovinamGold', 'bg-vovinamBlue/20');
-            }
-
-            const btn = document.getElementById('btn-start-selected');
-            if (selectedGameIds.length === 2) {
-                btn.disabled = false;
-                btn.classList.remove('bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-                btn.classList.add('bg-gradient-to-r', 'from-yellow-500', 'to-vovinamGold', 'text-slate-950', 'gold-glow');
-                btn.textContent = 'BẮT ĐẦU 2 THỬ THÁCH 🚀';
-            } else {
-                btn.disabled = true;
-                btn.classList.add('bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-                btn.classList.remove('bg-gradient-to-r', 'from-yellow-500', 'to-vovinamGold', 'text-slate-950', 'gold-glow');
-                btn.textContent = `ĐÃ CHỌN (${selectedGameIds.length}/2) - CHỌN ĐỦ 2 GAME`;
-            }
-        }
-
-        function startSelectedGames() {
-            document.getElementById('screen-select').classList.add('hidden');
-            currentGameIndex = 0;
-            gameResults = [];
-            runNextGame();
-        }
-
-        function runNextGame() {
-            if (currentGameIndex >= selectedGameIds.length) {
-                showFinalResults();
-                return;
-            }
-            const gId = selectedGameIds[currentGameIndex];
-            if (gId === 1) initGame1();
-            if (gId === 2) initGame2();
-            if (gId === 3) initGame3();
-            if (gId === 4) initGame4();
-            if (gId === 5) initGame5();
-        }
-
-        // ================= GAME 1: PHẢN XẠ 10S =================
-        let g1Hits = 0;
-        let g1TimerId = null;
-
-        function initGame1() {
-            document.getElementById('screen-game-1').classList.remove('hidden');
-            document.getElementById('btn-start-g1').classList.remove('hidden');
-            document.getElementById('g1-msg').textContent = "Nhấn nút bên dưới để bắt đầu!";
-            document.getElementById('g1-target').classList.add('hidden');
-            g1Hits = 0;
-        }
-
-        function runGame1() {
-            document.getElementById('btn-start-g1').classList.add('hidden');
-            document.getElementById('g1-msg').textContent = "";
-            g1Hits = 0;
-            let timeLeft = 10;
-            spawnG1Target();
-
-            g1TimerId = setInterval(() => {
-                timeLeft--;
-                document.getElementById('g1-timer').textContent = `Thời gian: ${timeLeft}s`;
-                if (timeLeft <= 0) {
-                    clearInterval(g1TimerId);
-                    document.getElementById('g1-target').classList.add('hidden');
-                    
-                    let score = Math.min(100, g1Hits * 10);
-                    let isPass = score >= 60;
-                    gameResults.push({ name: "1. Phản Xạ Nhanh Lẹ", score, isPass, text: `${score}/100đ (${g1Hits} đấm)` });
-
-                    setTimeout(() => {
-                        document.getElementById('screen-game-1').classList.add('hidden');
-                        currentGameIndex++;
-                        runNextGame();
-                    }, 1000);
-                }
-            }, 1000);
-        }
-
-        function spawnG1Target() {
-            const arena = document.getElementById('g1-arena');
-            const target = document.getElementById('g1-target');
-            const maxX = arena.clientWidth - 70;
-            const maxY = arena.clientHeight - 70;
-            target.style.left = Math.floor(Math.random() * Math.max(10, maxX)) + 'px';
-            target.style.top = Math.floor(Math.random() * Math.max(10, maxY)) + 'px';
-            target.classList.remove('hidden');
-        }
-
-        function hitG1Target() {
-            g1Hits++;
-            spawnG1Target();
-        }
-
-        // ================= GAME 2: TRẮC NGHIỆM VÕ ĐẠO =================
-        const questionBank = [
-            { q: "Bài quyền nhập môn đầu tiên mà môn sinh Vovinam được tập luyện là gì?", options: ["Nhập môn quyền", "Khởi quyền", "Thập tự quyền", "Long hổ quyền"], answer: 1 },
-            { q: "Vovinam (Việt Võ Đạo) do võ sư nào sáng lập?", options: ["Võ sư Nguyễn Lộc", "Võ sư Sáng Sáng", "Võ sư Lê Sáng", "Võ sư Trần Đế"], answer: 0 },
-            { q: "Màu sắc truyền thống đặc trưng của võ phục Vovinam là gì?", options: ["Màu đen", "Màu trắng", "Màu xanh lam", "Màu vàng"], answer: 2 },
-            { q: "Đòn chân tấn công nào của Vovinam nổi tiếng toàn thế giới?", options: ["Đòn chân kẹp cổ", "Đòn bay người đá tạt", "Đòn quét sơn", "Đòn chém cạnh tay"], answer: 0 },
-            { q: "Ý nghĩa bàn tay thép ôm đấm non sông trong biểu tượng Vovinam là gì?", options: ["Sức mạnh tuyệt đối", "Sự kết hợp cương và nhu", "Ý chí chiến đấu", "Tinh thần thượng võ"], answer: 1 }
-        ];
-        let selectedQuestions = [], currentQuizIndex = 0, quizScore = 0;
-
-        function initGame2() {
-            document.getElementById('screen-game-2').classList.remove('hidden');
-            selectedQuestions = [...questionBank].sort(() => 0.5 - Math.random()).slice(0, 5);
-            currentQuizIndex = 0;
-            quizScore = 0;
-            loadQuizQuestion();
-        }
-
-        function loadQuizQuestion() {
-            if (currentQuizIndex >= selectedQuestions.length) {
-                let score = quizScore * 20;
-                let isPass = score >= 60;
-                gameResults.push({ name: "2. Trí Tuệ Võ Đạo", score, isPass, text: `${score}/100đ (${quizScore}/5 câu)` });
-                setTimeout(() => {
-                    document.getElementById('screen-game-2').classList.add('hidden');
-                    currentGameIndex++;
-                    runNextGame();
-                }, 1000);
-                return;
-            }
-            const qData = selectedQuestions[currentQuizIndex];
-            document.getElementById('quiz-progress').textContent = `Câu: ${currentQuizIndex + 1}/5`;
-            document.getElementById('quiz-question').textContent = qData.q;
-            document.getElementById('quiz-feedback').textContent = "";
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = '';
-            qData.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = "w-full text-left bg-slate-900/90 hover:bg-vovinamBlue/40 border border-vovinamBlue/30 p-3 rounded-xl text-xs font-medium flex items-center justify-between text-slate-200";
-                btn.innerHTML = `<span>${opt}</span><span class="w-5 h-5 rounded-full border border-slate-600 flex items-center justify-center text-[10px] text-slate-300 font-bold bg-slate-800">${String.fromCharCode(65 + idx)}</span>`;
-                btn.onclick = () => selectAnswer(idx, btn);
-                optionsContainer.appendChild(btn);
-            });
-        }
-
-        function selectAnswer(selectedIndex, selectedBtn) {
-            const buttons = document.getElementById('quiz-options').getElementsByTagName('button');
-            for (let b of buttons) b.disabled = true;
-            const qData = selectedQuestions[currentQuizIndex];
-            if (selectedIndex === qData.answer) {
-                selectedBtn.classList.add('bg-emerald-600', 'text-white');
-                document.getElementById('quiz-feedback').innerHTML = `<span class="text-emerald-400 font-bold">✔ Chính xác!</span>`;
-                quizScore++;
-            } else {
-                selectedBtn.classList.add('bg-rose-600', 'text-white');
-                buttons[qData.answer].classList.add('bg-emerald-600', 'text-white');
-                document.getElementById('quiz-feedback').innerHTML = `<span class="text-rose-400 font-bold">✖ Chưa chính xác.</span>`;
-            }
-            currentQuizIndex++;
-            setTimeout(loadQuizQuestion, 1200);
-        }
-
-        // ================= GAME 3: MẮT THẦN VÕ SĨ =================
-        let g3Pos = 0, g3Direction = 1, g3Interval = null, g3Round = 1, g3TotalScore = 0;
-
-        function initGame3() {
-            document.getElementById('screen-game-3').classList.remove('hidden');
-            g3Round = 1;
-            g3TotalScore = 0;
-            startG3Loop();
-        }
-
-        function startG3Loop() {
-            document.getElementById('g3-round').textContent = `Lượt: ${g3Round}/3`;
-            const pointer = document.getElementById('g3-pointer');
-            g3Pos = 0; g3Direction = 1;
-            if (g3Interval) clearInterval(g3Interval);
-            g3Interval = setInterval(() => {
-                g3Pos += g3Direction * 4;
-                if (g3Pos >= 95) g3Direction = -1;
-                if (g3Pos <= 0) g3Direction = 1;
-                pointer.style.left = g3Pos + '%';
-            }, 15);
-        }
-
-        function lockGame3() {
-            clearInterval(g3Interval);
-            let diff = Math.abs(g3Pos - 48);
-            let score = Math.max(10, Math.round(100 - diff * 2.2));
-            g3TotalScore += score;
-            if (g3Round < 3) {
-                g3Round++;
-                setTimeout(startG3Loop, 800);
-            } else {
-                let finalScore = Math.round(g3TotalScore / 3);
-                let isPass = finalScore >= 60;
-                gameResults.push({ name: "3. Mắt Thần Võ Sĩ", score: finalScore, isPass, text: `${finalScore}/100đ` });
-                setTimeout(() => {
-                    document.getElementById('screen-game-3').classList.add('hidden');
-                    currentGameIndex++;
-                    runNextGame();
-                }, 1000);
-            }
-        }
-
-        // ================= GAME 4: CUỒNG PHONG ĐẤM =================
-        let g4Count = 0, g4TimerId = null;
-
-        function initGame4() {
-            document.getElementById('screen-game-4').classList.remove('hidden');
-            g4Count = 0;
-            document.getElementById('g4-count').textContent = "0";
-            document.getElementById('g4-bar').style.width = '0%';
-            let timeLeft = 5;
-            g4TimerId = setInterval(() => {
-                timeLeft--;
-                document.getElementById('g4-timer').textContent = `Thời gian: ${timeLeft}s`;
-                if (timeLeft <= 0) {
-                    clearInterval(g4TimerId);
-                    let score = Math.min(100, Math.round((g4Count / 25) * 100));
-                    let isPass = score >= 60;
-                    gameResults.push({ name: "4. Cuồng Phong Đấm", score, isPass, text: `${score}/100đ (${g4Count} cú)` });
-                    setTimeout(() => {
-                        document.getElementById('screen-game-4').classList.add('hidden');
-                        currentGameIndex++;
-                        runNextGame();
-                    }, 1000);
-                }
-            }, 1000);
-        }
-
-        function hitGame4() {
-            g4Count++;
-            document.getElementById('g4-count').textContent = g4Count;
-            document.getElementById('g4-bar').style.width = Math.min(100, (g4Count / 25) * 100) + '%';
-        }
-
-        // ================= GAME 5: THƯỢNG VÕ CÂN BẰNG =================
-        let g5BallPos = 50, g5Interval = null, g5TimeLeft = 8, g5InSafeTime = 0;
-
-        function initGame5() {
-            document.getElementById('screen-game-5').classList.remove('hidden');
-            g5BallPos = 50; g5TimeLeft = 8; g5InSafeTime = 0;
-            g5Interval = setInterval(() => {
-                g5BallPos = Math.max(5, Math.min(95, g5BallPos + (Math.random() - 0.5) * 7));
-                document.getElementById('g5-ball').style.left = g5BallPos + '%';
-                if (g5BallPos >= 33 && g5BallPos <= 66) g5InSafeTime += 0.1;
-                g5TimeLeft -= 0.1;
-                document.getElementById('g5-timer').textContent = `Thời gian: ${Math.ceil(g5TimeLeft)}s`;
-                if (g5TimeLeft <= 0) {
-                    clearInterval(g5Interval);
-                    let score = Math.min(100, Math.round((g5InSafeTime / 8) * 100));
-                    let isPass = score >= 60;
-                    gameResults.push({ name: "5. Thượng Võ Cân Bằng", score, isPass, text: `${score}/100đ` });
-                    setTimeout(() => {
-                        document.getElementById('screen-game-5').classList.add('hidden');
-                        currentGameIndex++;
-                        runNextGame();
-                    }, 1000);
-                }
-            }, 100);
-        }
-
-        function moveG5(delta) {
-            g5BallPos = Math.max(5, Math.min(95, g5BallPos + delta));
-            document.getElementById('g5-ball').style.left = g5BallPos + '%';
-        }
-
-        // ================= KẾT QUẢ & BẢNG XẾP HẠNG REALTIME =================
-        function showFinalResults() {
-            document.getElementById('screen-result').classList.remove('hidden');
-            const detailsEl = document.getElementById('result-details');
-            detailsEl.innerHTML = '';
-            
-            let totalScore = 0;
-            let allPassed = true;
-
-            gameResults.forEach(res => {
-                totalScore += res.score;
-                if (!res.isPass) allPassed = false;
-                const div = document.createElement('div');
-                div.className = "flex justify-between items-center";
-                div.innerHTML = `<span class="text-slate-400">${res.name}:</span><span class="font-bold ${res.isPass ? 'text-emerald-400' : 'text-rose-400'}">${res.text}</span>`;
-                detailsEl.appendChild(div);
-            });
-
-            // Tự động đẩy kết quả lên Server Public Cloud
-            saveScoreToCloud(playerName, totalScore);
-
-            const summaryDiv = document.createElement('div');
-            summaryDiv.className = "flex justify-between items-center border-t border-slate-800 pt-2 mt-2";
-            summaryDiv.innerHTML = `<span class="text-slate-400 font-bold">Tổng điểm (2 vòng):</span><span class="font-extrabold text-vovinamGold">${totalScore}/200 điểm</span>`;
-            detailsEl.appendChild(summaryDiv);
-
-            const statusDiv = document.createElement('div');
-            statusDiv.className = "flex justify-between items-center";
-            statusDiv.innerHTML = `<span class="text-slate-400">Trạng thái Passport:</span><span class="font-extrabold ${allPassed ? 'text-vovinamGold animate-pulse' : 'text-rose-400'}">${allPassed ? '✔ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU' : '✖ CHƯA ĐẠT YÊU CẦU'}</span>`;
-            detailsEl.appendChild(statusDiv);
-
-            const qrSection = document.getElementById('qr-section');
-            if (allPassed) {
-                qrSection.classList.remove('hidden');
-            } else {
-                qrSection.classList.add('hidden');
-            }
-        }
-
-        // --- ĐẨY ĐIỂM SỐ LÊN CLOUD (PUBLIC REALTIME) ---
-        async function saveScoreToCloud(name, score) {
-            const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-            const cleanName = (name && name.trim() !== "") ? name.trim() : "Võ sinh ẩn danh";
-            const payload = { name: cleanName, score: Number(score) || 0, time: timeStr, timestamp: Date.now() };
-
-            try {
-                await fetch(FIREBASE_DB_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-            } catch (err) {
-                console.error("Lỗi khi lưu điểm trực tuyến:", err);
-            }
-        }
-
-        // --- LẤY DỮ LIỆU BẢNG XẾP HẠNG REALTIME TỪ CLOUD (FIX HIỂN THỊ TÊN CHUẨN XÁC) ---
-        async function fetchLeaderboardFromCloud() {
-            const listEl = document.getElementById('leaderboard-list');
-            listEl.innerHTML = `<div class="text-center text-slate-400 py-4 animate-pulse">Đang tải dữ liệu trực tuyến...</div>`;
-
-            try {
-                const res = await fetch(FIREBASE_DB_URL);
-                const data = await res.json();
-                listEl.innerHTML = '';
-
-                if (!data) {
-                    listEl.innerHTML = `<div class="text-center text-slate-500 py-4">Chưa có lượt thi đấu nào!</div>`;
-                    return;
-                }
-
-                let rawList = [];
-                // Duyệt qua tất cả các key/item do Firebase trả về
-                Object.keys(data).forEach(key => {
-                    let entry = data[key];
-                    if (entry && typeof entry === 'object') {
-                        // Trường hợp dữ liệu chuẩn trực tiếp: { name, score, time, timestamp }
-                        if (entry.name !== undefined || entry.score !== undefined) {
-                            rawList.push({
-                                name: (entry.name && String(entry.name).trim() !== "") ? String(entry.name).trim() : "Võ sinh ẩn danh",
-                                score: Number(entry.score) || 0,
-                                time: entry.time || "",
-                                timestamp: entry.timestamp || 0
-                            });
-                        } else {
-                            // Trường hợp Firebase có các nhánh sâu bên trong
-                            Object.values(entry).forEach(sub => {
-                                if (sub && typeof sub === 'object' && (sub.name !== undefined || sub.score !== undefined)) {
-                                    rawList.push({
-                                        name: (sub.name && String(sub.name).trim() !== "") ? String(sub.name).trim() : "Võ sinh ẩn danh",
-                                        score: Number(sub.score) || 0,
-                                        time: sub.time || "",
-                                        timestamp: sub.timestamp || 0
-                                    });
-                                }
-                            });
-                        }
-                    }
-                });
-
-                if (rawList.length === 0) {
-                    listEl.innerHTML = `<div class="text-center text-slate-500 py-4">Chưa có dữ liệu hợp lệ! Nhấn Reset để làm sạch.</div>`;
-                    return;
-                }
-
-                // Sắp xếp giảm dần theo điểm số
-                rawList.sort((a, b) => b.score - a.score || b.timestamp - a.timestamp);
-
-                rawList.slice(0, 20).forEach((item, index) => {
-                    let rankColor = index === 0 ? 'text-yellow-400 font-black' : index === 1 ? 'text-slate-300 font-bold' : index === 2 ? 'text-amber-600 font-bold' : 'text-slate-400';
-                    let row = document.createElement('div');
-                    row.className = "flex justify-between items-center bg-slate-950/60 p-2.5 rounded-xl border border-slate-800";
-                    row.innerHTML = `
-                        <div class="flex items-center gap-2">
-                            <span class="w-6 text-center ${rankColor}">#${index + 1}</span>
-                            <div>
-                                <div class="font-bold text-white">${item.name}</div>
-                                <div class="text-[9px] text-slate-500">${item.time || ''}</div>
-                            </div>
-                        </div>
-                        <span class="font-extrabold text-vovinamGold">${item.score} đ</span>
-                    `;
-                    listEl.appendChild(row);
-                });
-            } catch (err) {
-                listEl.innerHTML = `<div class="text-center text-rose-400 py-4">Không thể kết nối máy chủ realtime!</div>`;
-            }
-        }
-
-        function showLeaderboardModal() {
-            fetchLeaderboardFromCloud();
-            document.getElementById('leaderboard-modal').classList.remove('hidden');
-        }
-
-        function closeLeaderboardModal() {
-            document.getElementById('leaderboard-modal').classList.add('hidden');
-        }
-
-        // --- RESET BẢNG XẾP HẠNG TRÊN CLOUD (MẬT KHẨU ADMIN) ---
-        async function promptResetLeaderboard() {
-            const pwd = prompt("Nhập mật khẩu quản trị để reset Bảng Xếp Hạng Trực Tuyến:");
-            if (pwd === null) return;
-            if (pwd === "Thanh160209") {
-                try {
-                    await fetch(FIREBASE_DB_URL, { method: 'DELETE' });
-                    alert("Đã reset Bảng Xếp Hạng Public thành công!");
-                    fetchLeaderboardFromCloud();
-                } catch (err) {
-                    alert("Có lỗi xảy ra khi reset dữ liệu server!");
-                }
-            } else {
-                alert("Mật khẩu không chính xác!");
-            }
-        }
-    </script>
+<script>
+(() => {
+  'use strict';
+  // Cấu hình duy nhất cần đúng với Firebase Realtime Database của FSC x Wave.
+  // Không đặt mật khẩu quản trị hay khóa Firebase Admin ở frontend.
+  const FIREBASE_DB_URL = 'https://fsc-x-f43bc-default-rtdb.asia-southeast1.firebasedatabase.app/leaderboard';
+  const BOARD_URL = FIREBASE_DB_URL + '.json';
+  const BOARD_REFRESH_MS = 5000;
+  const $ = id => document.getElementById(id);
+  const screens = ['name','select','game-1','game-2','game-3','game-4','game-5','result'];
+  let playerName = '';
+  let selectedGameIds = [];
+  let currentGameIndex = 0;
+  let gameResults = [];
+  let runId = '';
+  let saved = false;
+  let saving = false;
+  let boardInterval = null;
+  let boardBusy = false;
+  let boardRequestId = 0;
+  let gameTimers = [];
+  let gameToken = 0;
+  const questionBank = [
+    {q:'Bài quyền nhập môn đầu tiên mà môn sinh Vovinam được tập luyện là gì?',options:['Nhập môn quyền','Khởi quyền','Thập tự quyền','Long hổ quyền'],answer:1},
+    {q:'Vovinam (Việt Võ Đạo) do võ sư nào sáng lập?',options:['Võ sư Nguyễn Lộc','Võ sư Sáng Sáng','Võ sư Lê Sáng','Võ sư Trần Đế'],answer:0},
+    {q:'Màu sắc truyền thống đặc trưng của võ phục Vovinam là gì?',options:['Màu đen','Màu trắng','Màu xanh lam','Màu vàng'],answer:2},
+    {q:'Đòn chân tấn công nào của Vovinam nổi tiếng toàn thế giới?',options:['Đòn chân kẹp cổ','Đòn bay người đá tạt','Đòn quét sơn','Đòn chém cạnh tay'],answer:0},
+    {q:'Ý nghĩa bàn tay thép ôm đấm non sông trong biểu tượng Vovinam là gì?',options:['Sức mạnh tuyệt đối','Sự kết hợp cương và nhu','Ý chí chiến đấu','Tinh thần thượng võ'],answer:1}
+  ];
+  function showScreen(name){screens.forEach(k=>$('screen-'+k).classList.toggle('hidden',k!==name));window.scrollTo({top:0,behavior:'instant'});}
+  function setStatus(id,message,type=''){$(id).textContent=message;$(id).classList.remove('success','error');if(type)$(id).classList.add(type);}
+  function delay(fn,ms){const h=setTimeout(fn,ms);gameTimers.push({type:'timeout',h});return h;}
+  function every(fn,ms){const h=setInterval(fn,ms);gameTimers.push({type:'interval',h});return h;}
+  function clearGameTimers(){for(const {type,h} of gameTimers){type==='interval'?clearInterval(h):clearTimeout(h);}gameTimers=[];gameToken++;}
+  function createRunId(){if(globalThis.crypto && typeof crypto.randomUUID==='function')return 'run-'+crypto.randomUUID();return 'run-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);}
+  function displayFirebaseError(status){if(status===401||status===403)return 'Firebase từ chối quyền truy cập. Kiểm tra Realtime Database Rules.';if(status===404)return 'Không tìm thấy Firebase Database. Kiểm tra Database URL.';if(status===400)return 'Firebase không chấp nhận dữ liệu. Kiểm tra cấu trúc điểm và Rules.';if(status>=500)return 'Máy chủ Firebase đang gặp sự cố. Vui lòng thử lại.';return 'Lỗi kết nối Firebase (HTTP '+status+').';}
+  async function requestJSON(url,options={},timeout=12000){
+    const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),timeout);
+    try{const response=await fetch(url,{...options,signal:controller.signal,cache:'no-store'});let data=null;
+      try{data=await response.json()}catch(_){/* Có thể là lỗi HTML của proxy */}
+      if(!response.ok){const error=new Error(displayFirebaseError(response.status));error.status=response.status;throw error;}
+      return data;
+    }catch(e){if(e.name==='AbortError')throw new Error('Kết nối Firebase quá thời gian. Kiểm tra mạng và thử lại.');throw e;}finally{clearTimeout(timer);}
+  }
+  // Chỉ cho chọn đúng hai game; không can thiệp điểm của game còn lại.
+  function submitPlayerName(){const raw=$('player-name-input').value.trim().replace(/\s+/g,' ');if(!raw){$('player-name-input').focus();alert('Vui lòng nhập tên trước khi bắt đầu!');return;}playerName=raw.slice(0,25);$('welcome-player-tag').textContent='VĐV: '+playerName;selectedGameIds=[];updateSelection();showScreen('select');}
+  function updateSelection(){document.querySelectorAll('[data-game]').forEach(button=>{const selected=selectedGameIds.includes(Number(button.dataset.game));button.setAttribute('aria-pressed',String(selected));button.querySelector('.tick').textContent=selected?'✓':'';});const ok=selectedGameIds.length===2;$('btn-start-selected').disabled=!ok;$('btn-start-selected').textContent=ok?'BẮT ĐẦU 2 THỬ THÁCH 🚀':'ĐÃ CHỌN ('+selectedGameIds.length+'/2) - CHỌN ĐỦ 2 GAME';}
+  function toggleGameSelect(id){if(selectedGameIds.includes(id))selectedGameIds=selectedGameIds.filter(x=>x!==id);else if(selectedGameIds.length<2)selectedGameIds.push(id);updateSelection();}
+  function startSelectedGames(){if(selectedGameIds.length!==2)return;clearGameTimers();currentGameIndex=0;gameResults=[];runId=createRunId();saved=false;saving=false;runNextGame();}
+  function runNextGame(){clearGameTimers();if(currentGameIndex>=selectedGameIds.length){showFinalResults();return;}const id=selectedGameIds[currentGameIndex];showScreen('game-'+id);if(id===1)initGame1();if(id===2)initGame2();if(id===3)initGame3();if(id===4)initGame4();if(id===5)initGame5();}
+  function finishGame(name,score,text){const clamped=Math.max(0,Math.min(100,Math.round(score)));gameResults.push({name,score:clamped,isPass:clamped>=60,text});currentGameIndex++;delay(runNextGame,850);}
+  // GAME 1 — phản xạ: đồng hồ thời gian thực, không đếm theo số callback bị trễ.
+  let g1Hits=0,g1Active=false,g1End=0;
+  function initGame1(){g1Hits=0;g1Active=false;$('g1-target').classList.add('hidden');$('g1-msg').classList.remove('hidden');$('btn-start-g1').classList.remove('hidden');$('g1-timer').textContent='Thời gian: 10s';}
+  function spawnG1Target(){if(!g1Active)return;const arena=$('g1-arena');const target=$('g1-target');const maxX=Math.max(0,arena.clientWidth-target.offsetWidth-5),maxY=Math.max(0,arena.clientHeight-target.offsetHeight-5);target.style.left=Math.round(Math.random()*maxX)+'px';target.style.top=Math.round(Math.random()*maxY)+'px';target.classList.remove('hidden');}
+  function runGame1(){if(g1Active)return;g1Active=true;g1Hits=0;g1End=performance.now()+10000;$('btn-start-g1').classList.add('hidden');$('g1-msg').classList.add('hidden');spawnG1Target();every(()=>{const remain=Math.max(0,g1End-performance.now());$('g1-timer').textContent='Thời gian: '+Math.ceil(remain/1000)+'s';if(remain<=0){g1Active=false;$('g1-target').classList.add('hidden');clearGameTimers();const score=Math.min(100,g1Hits*10);finishGame('1. Phản Xạ Nhanh Lẹ',score,score+'/100đ ('+g1Hits+' đấm)');}},80);}
+  function hitG1Target(){if(!g1Active||performance.now()>=g1End)return;g1Hits++;spawnG1Target();}
+  // GAME 2 — khóa đáp án ngay sau cú chạm đầu tiên.
+  let selectedQuestions=[],currentQuizIndex=0,quizScore=0,quizLocked=false;
+  function initGame2(){selectedQuestions=[...questionBank].sort(()=>Math.random()-.5).slice(0,5);currentQuizIndex=0;quizScore=0;quizLocked=false;loadQuizQuestion();}
+  function loadQuizQuestion(){if(currentQuizIndex>=selectedQuestions.length){const score=quizScore*20;finishGame('2. Trí Tuệ Võ Đạo',score,score+'/100đ ('+quizScore+'/5 câu)');return;}quizLocked=false;const q=selectedQuestions[currentQuizIndex];$('quiz-progress').textContent='Câu: '+(currentQuizIndex+1)+'/5';$('quiz-question').textContent=q.q;setStatus('quiz-feedback','');const box=$('quiz-options');box.replaceChildren();q.options.forEach((option,index)=>{const button=document.createElement('button');button.className='option';button.type='button';button.textContent=String.fromCharCode(65+index)+'. '+option;button.addEventListener('click',()=>selectAnswer(index));box.append(button);});}
+  function selectAnswer(index){if(quizLocked)return;quizLocked=true;const q=selectedQuestions[currentQuizIndex];const buttons=[...$('quiz-options').children];buttons.forEach(b=>b.disabled=true);if(index===q.answer){quizScore++;buttons[index].classList.add('correct');setStatus('quiz-feedback','✔ Chính xác!','success');}else{buttons[index].classList.add('wrong');buttons[q.answer].classList.add('correct');setStatus('quiz-feedback','✖ Chưa chính xác.','error');}currentQuizIndex++;delay(loadQuizQuestion,850);}
+  // GAME 3 — chỉ chấp nhận một cú khóa cho mỗi lượt (tránh cộng điểm trùng).
+  let g3Start=0,g3Pos=0,g3Round=1,g3Total=0,g3Locked=false,g3Active=false;
+  function initGame3(){g3Round=1;g3Total=0;startG3Loop();}
+  function startG3Loop(){g3Locked=false;g3Active=true;g3Start=performance.now();$('btn-lock-g3').disabled=false;$('g3-round').textContent='Lượt: '+g3Round+'/3';every(()=>{const cycle=((performance.now()-g3Start)/15*4)%190;g3Pos=cycle<=95?cycle:190-cycle;$('g3-pointer').style.left=g3Pos+'%';},20);}
+  function lockGame3(){if(!g3Active||g3Locked)return;g3Locked=true;g3Active=false;$('btn-lock-g3').disabled=true;clearGameTimers();const score=Math.max(10,Math.round(100-Math.abs(g3Pos-48)*2.2));g3Total+=score;if(g3Round<3){g3Round++;delay(startG3Loop,600);}else{const total=Math.round(g3Total/3);finishGame('3. Mắt Thần Võ Sĩ',total,total+'/100đ');}}
+  // GAME 4 — chỉ tính cú bấm trong thời gian 5 giây.
+  let g4Count=0,g4End=0,g4Active=false;
+  function initGame4(){g4Count=0;g4Active=true;g4End=performance.now()+5000;$('g4-count').textContent='0';$('g4-timer').textContent='Thời gian: 5s';$('g4-bar').style.width='0%';$('btn-hit-g4').disabled=false;every(()=>{const remain=Math.max(0,g4End-performance.now());$('g4-timer').textContent='Thời gian: '+Math.ceil(remain/1000)+'s';if(remain<=0){g4Active=false;$('btn-hit-g4').disabled=true;clearGameTimers();const score=Math.min(100,Math.round(g4Count/25*100));finishGame('4. Cuồng Phong Đấm',score,score+'/100đ ('+g4Count+' cú)');}},80);}
+  function hitGame4(){if(!g4Active||performance.now()>=g4End)return;g4Count++;$('g4-count').textContent=String(g4Count);$('g4-bar').style.width=Math.min(100,g4Count/25*100)+'%';}
+  // GAME 5 — cộng thời gian an toàn theo milliseconds thực tế (không lệ thuộc FPS).
+  let g5Pos=50,g5End=0,g5Last=0,g5SafeMs=0,g5Active=false;
+  function initGame5(){g5Pos=50;g5SafeMs=0;g5Active=true;g5Last=performance.now();g5End=g5Last+8000;$('g5-ball').style.left='50%';$('g5-timer').textContent='Thời gian: 8s';every(()=>{const now=performance.now();const elapsed=Math.max(0,Math.min(now,g5End)-g5Last);if(g5Pos>=33&&g5Pos<=66)g5SafeMs+=elapsed;g5Last=Math.min(now,g5End);g5Pos=Math.max(5,Math.min(95,g5Pos+(Math.random()-.5)*7));$('g5-ball').style.left=g5Pos+'%';$('g5-timer').textContent='Thời gian: '+Math.ceil(Math.max(0,g5End-now)/1000)+'s';if(now>=g5End){g5Active=false;clearGameTimers();const score=Math.min(100,Math.round(g5SafeMs/8000*100));finishGame('5. Thượng Võ Cân Bằng',score,score+'/100đ');}},100);}
+  function moveG5(delta){if(!g5Active||performance.now()>=g5End)return;g5Pos=Math.max(5,Math.min(95,g5Pos+delta));$('g5-ball').style.left=g5Pos+'%';}
+  function addScoreLine(label,value,className=''){const row=document.createElement('div');row.className='scoreline '+className;const left=document.createElement('span');left.textContent=label;const right=document.createElement('strong');right.textContent=value;row.append(left,right);$('result-details').append(row);}
+  function showFinalResults(){showScreen('result');$('result-details').replaceChildren();const total=gameResults.reduce((sum,item)=>sum+item.score,0);const allPassed=gameResults.length===2&&gameResults.every(x=>x.isPass);gameResults.forEach(x=>addScoreLine(x.name,x.text));addScoreLine('Tổng điểm (2 vòng)',total+'/200 điểm','total');addScoreLine('Trạng thái Passport',allPassed?'✔ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU':'✖ CHƯA ĐẠT YÊU CẦU');$('qr-section').classList.toggle('hidden',!allPassed);$('passport-note').textContent=allPassed?'Chúc mừng! Quét QR để khám phá và đăng ký CLB.':'Mỗi game cần ít nhất 60 điểm để đạt Passport. Bạn có thể thử lại.';saveScoreToCloud();}
+  function currentPayload(){return {name:playerName,score:gameResults.reduce((sum,x)=>sum+x.score,0),time:new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}),timestamp:Date.now()};}
+  // PUT một ID duy nhất mỗi lượt: tránh duplicate nếu mạng đứt giữa chừng.
+  let pendingPayload=null;
+  async function saveScoreToCloud(){if(saved||saving||!runId)return;saving=true;$('btn-retry-save').classList.add('hidden');setStatus('save-status','⏳ Đang lưu điểm lên BXH online...');if(!pendingPayload)pendingPayload=currentPayload();const url=FIREBASE_DB_URL+'/'+encodeURIComponent(runId)+'.json';
+    try{await requestJSON(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(pendingPayload)},12000);saved=true;setStatus('save-status','✔ Đã lưu điểm lên Firebase thành công!','success');}
+    catch(error){let confirmed=false;try{const existing=await requestJSON(url,{},7000);confirmed=!!existing&&existing.name===pendingPayload.name&&existing.score===pendingPayload.score;}catch(_){/* Không thể xác minh lượt lưu trước */}
+      if(confirmed){saved=true;setStatus('save-status','✔ Điểm đã có trên Firebase!','success');}
+      else{setStatus('save-status','✖ Chưa xác nhận lưu điểm: '+error.message,'error');$('btn-retry-save').classList.remove('hidden');}}
+    finally{saving=false;}
+  }
+  function normalizeBoard(data){if(!data||typeof data!=='object'||Array.isArray(data))return [];return Object.values(data).filter(item=>item&&typeof item==='object'&&typeof item.name==='string'&&item.name.trim()&&Number.isFinite(item.score)&&item.score>=0&&item.score<=200).map(item=>({name:item.name.trim().slice(0,25),score:Math.round(item.score),time:typeof item.time==='string'?item.time.slice(0,20):'',timestamp:Number.isFinite(item.timestamp)?item.timestamp:0})).sort((a,b)=>b.score-a.score||b.timestamp-a.timestamp).slice(0,20);}
+  function renderBoard(rows){const list=$('leaderboard-list');list.replaceChildren();if(!rows.length){const p=document.createElement('p');p.className='note center';p.style.padding='22px 0';p.textContent='Chưa có lượt chơi hợp lệ nào trên BXH.';list.append(p);return;}rows.forEach((item,index)=>{const row=document.createElement('div');row.className='rank';const rank=document.createElement('span');rank.className='rank-num';rank.textContent='#'+(index+1);const body=document.createElement('div');body.className='rank-body';const name=document.createElement('div');name.className='rank-name';name.textContent=item.name;const time=document.createElement('div');time.className='rank-time';time.textContent=item.time;body.append(name,time);const score=document.createElement('span');score.className='rank-score';score.textContent=item.score+' đ';row.append(rank,body,score);list.append(row);});}
+  async function fetchLeaderboardFromCloud(){if(boardBusy)return;boardBusy=true;const id=++boardRequestId;setStatus('leaderboard-status','Đang đồng bộ dữ liệu...');try{const data=await requestJSON(BOARD_URL,{},11000);if(id!==boardRequestId||$('leaderboard-modal').classList.contains('hidden'))return;renderBoard(normalizeBoard(data));setStatus('leaderboard-status','✔ Đã kết nối Firebase • Cập nhật lúc '+new Date().toLocaleTimeString('vi-VN'), 'success');}
+    catch(error){if(id!==boardRequestId||$('leaderboard-modal').classList.contains('hidden'))return;setStatus('leaderboard-status','✖ '+error.message,'error');$('leaderboard-list').replaceChildren();}
+    finally{boardBusy=false;}
+  }
+  function showLeaderboardModal(){$('leaderboard-modal').classList.remove('hidden');$('btn-close-board').focus();fetchLeaderboardFromCloud();clearInterval(boardInterval);boardInterval=setInterval(fetchLeaderboardFromCloud,BOARD_REFRESH_MS);}
+  function closeLeaderboardModal(){clearInterval(boardInterval);boardInterval=null;boardRequestId++;$('leaderboard-modal').classList.add('hidden');}
+  // Event handlers đặt tập trung; không để lộ thao tác xóa cloud hay mật khẩu trong client.
+  $('btn-enter').addEventListener('click',submitPlayerName);
+  $('player-name-input').addEventListener('keydown',event=>{if(event.key==='Enter')submitPlayerName();});
+  $('challenge-list').addEventListener('click',event=>{const button=event.target.closest('[data-game]');if(button)toggleGameSelect(Number(button.dataset.game));});
+  $('btn-start-selected').addEventListener('click',startSelectedGames);
+  $('btn-start-g1').addEventListener('click',runGame1);
+  $('g1-target').addEventListener('click',hitG1Target);
+  $('btn-lock-g3').addEventListener('click',lockGame3);
+  $('btn-hit-g4').addEventListener('click',hitGame4);
+  $('btn-g5-left').addEventListener('click',()=>moveG5(-10));
+  $('btn-g5-right').addEventListener('click',()=>moveG5(10));
+  $('btn-retry-save').addEventListener('click',saveScoreToCloud);
+  $('btn-replay').addEventListener('click',()=>{clearGameTimers();selectedGameIds=[];pendingPayload=null;playerName='';$('player-name-input').value='';showScreen('name');});
+  document.querySelectorAll('[data-open-board]').forEach(button=>button.addEventListener('click',showLeaderboardModal));
+  $('btn-close-board').addEventListener('click',closeLeaderboardModal);
+  $('btn-refresh-board').addEventListener('click',fetchLeaderboardFromCloud);
+  $('leaderboard-modal').addEventListener('click',event=>{if(event.target===$('leaderboard-modal'))closeLeaderboardModal();});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('leaderboard-modal').classList.contains('hidden'))closeLeaderboardModal();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)return;if(!$('leaderboard-modal').classList.contains('hidden'))fetchLeaderboardFromCloud();});
+})();
+</script>
 </body>
 </html>
