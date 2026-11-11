@@ -83,6 +83,13 @@
     <section id="screen-result" class="panel gold-border center hidden" aria-labelledby="result-title">
       <div class="mark" aria-hidden="true">🏅</div><h2 id="result-title">HOÀN THÀNH THỬ THÁCH!</h2>
       <p class="subtitle">Tổng kết thành tích thi đấu của bạn</p><div class="scorelines" id="result-details"></div>
+      
+      <!-- PHẦN THÔNG BÁO QUÀ TẶNG -->
+      <div id="gift-section" class="scorelines hidden" style="border-color: #d5b24b44; background: #0c1f38;">
+        <div style="font-weight: 800; color: var(--gold); margin-bottom: 6px;">🎁 QUÀ TẶNG NHẬN ĐƯỢC</div>
+        <div id="gift-list" style="display: grid; gap: 6px; font-size: 12px; text-align: left;"></div>
+      </div>
+
       <div id="save-status" class="status" role="status" aria-live="polite"></div>
       <button id="btn-retry-save" class="btn ghost hidden" type="button">↻ THỬ LƯU ĐIỂM LẠI</button>
       <div id="qr-section" class="qrgrid hidden">
@@ -107,8 +114,6 @@
 <script>
 (() => {
   'use strict';
-  // Cấu hình duy nhất cần đúng với Firebase Realtime Database của FSC x Wave.
-  // Không đặt mật khẩu quản trị hay khóa Firebase Admin ở frontend.
   const FIREBASE_DB_URL = 'https://fsc-x-f43bc-default-rtdb.asia-southeast1.firebasedatabase.app/leaderboard';
   const BOARD_URL = FIREBASE_DB_URL + '.json';
   const BOARD_REFRESH_MS = 5000;
@@ -143,50 +148,134 @@
   async function requestJSON(url,options={},timeout=12000){
     const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),timeout);
     try{const response=await fetch(url,{...options,signal:controller.signal,cache:'no-store'});let data=null;
-      try{data=await response.json()}catch(_){/* Có thể là lỗi HTML của proxy */}
+      try{data=await response.json()}catch(_){}
       if(!response.ok){const error=new Error(displayFirebaseError(response.status));error.status=response.status;throw error;}
       return data;
     }catch(e){if(e.name==='AbortError')throw new Error('Kết nối Firebase quá thời gian. Kiểm tra mạng và thử lại.');throw e;}finally{clearTimeout(timer);}
   }
-  // Chỉ cho chọn đúng hai game; không can thiệp điểm của game còn lại.
   function submitPlayerName(){const raw=$('player-name-input').value.trim().replace(/\s+/g,' ');if(!raw){$('player-name-input').focus();alert('Vui lòng nhập tên trước khi bắt đầu!');return;}playerName=raw.slice(0,25);$('welcome-player-tag').textContent='VĐV: '+playerName;selectedGameIds=[];updateSelection();showScreen('select');}
   function updateSelection(){document.querySelectorAll('[data-game]').forEach(button=>{const selected=selectedGameIds.includes(Number(button.dataset.game));button.setAttribute('aria-pressed',String(selected));button.querySelector('.tick').textContent=selected?'✓':'';});const ok=selectedGameIds.length===2;$('btn-start-selected').disabled=!ok;$('btn-start-selected').textContent=ok?'BẮT ĐẦU 2 THỬ THÁCH 🚀':'ĐÃ CHỌN ('+selectedGameIds.length+'/2) - CHỌN ĐỦ 2 GAME';}
   function toggleGameSelect(id){if(selectedGameIds.includes(id))selectedGameIds=selectedGameIds.filter(x=>x!==id);else if(selectedGameIds.length<2)selectedGameIds.push(id);updateSelection();}
   function startSelectedGames(){if(selectedGameIds.length!==2)return;clearGameTimers();currentGameIndex=0;gameResults=[];runId=createRunId();saved=false;saving=false;runNextGame();}
   function runNextGame(){clearGameTimers();if(currentGameIndex>=selectedGameIds.length){showFinalResults();return;}const id=selectedGameIds[currentGameIndex];showScreen('game-'+id);if(id===1)initGame1();if(id===2)initGame2();if(id===3)initGame3();if(id===4)initGame4();if(id===5)initGame5();}
   function finishGame(name,score,text){const clamped=Math.max(0,Math.min(100,Math.round(score)));gameResults.push({name,score:clamped,isPass:clamped>=60,text});currentGameIndex++;delay(runNextGame,850);}
-  // GAME 1 — phản xạ: đồng hồ thời gian thực, không đếm theo số callback bị trễ.
+  
   let g1Hits=0,g1Active=false,g1End=0;
   function initGame1(){g1Hits=0;g1Active=false;$('g1-target').classList.add('hidden');$('g1-msg').classList.remove('hidden');$('btn-start-g1').classList.remove('hidden');$('g1-timer').textContent='Thời gian: 10s';}
   function spawnG1Target(){if(!g1Active)return;const arena=$('g1-arena');const target=$('g1-target');const maxX=Math.max(0,arena.clientWidth-target.offsetWidth-5),maxY=Math.max(0,arena.clientHeight-target.offsetHeight-5);target.style.left=Math.round(Math.random()*maxX)+'px';target.style.top=Math.round(Math.random()*maxY)+'px';target.classList.remove('hidden');}
   function runGame1(){if(g1Active)return;g1Active=true;g1Hits=0;g1End=performance.now()+10000;$('btn-start-g1').classList.add('hidden');$('g1-msg').classList.add('hidden');spawnG1Target();every(()=>{const remain=Math.max(0,g1End-performance.now());$('g1-timer').textContent='Thời gian: '+Math.ceil(remain/1000)+'s';if(remain<=0){g1Active=false;$('g1-target').classList.add('hidden');clearGameTimers();const score=Math.min(100,g1Hits*10);finishGame('1. Phản Xạ Nhanh Lẹ',score,score+'/100đ ('+g1Hits+' đấm)');}},80);}
   function hitG1Target(){if(!g1Active||performance.now()>=g1End)return;g1Hits++;spawnG1Target();}
-  // GAME 2 — khóa đáp án ngay sau cú chạm đầu tiên.
+  
   let selectedQuestions=[],currentQuizIndex=0,quizScore=0,quizLocked=false;
   function initGame2(){selectedQuestions=[...questionBank].sort(()=>Math.random()-.5).slice(0,5);currentQuizIndex=0;quizScore=0;quizLocked=false;loadQuizQuestion();}
   function loadQuizQuestion(){if(currentQuizIndex>=selectedQuestions.length){const score=quizScore*20;finishGame('2. Trí Tuệ Võ Đạo',score,score+'/100đ ('+quizScore+'/5 câu)');return;}quizLocked=false;const q=selectedQuestions[currentQuizIndex];$('quiz-progress').textContent='Câu: '+(currentQuizIndex+1)+'/5';$('quiz-question').textContent=q.q;setStatus('quiz-feedback','');const box=$('quiz-options');box.replaceChildren();q.options.forEach((option,index)=>{const button=document.createElement('button');button.className='option';button.type='button';button.textContent=String.fromCharCode(65+index)+'. '+option;button.addEventListener('click',()=>selectAnswer(index));box.append(button);});}
   function selectAnswer(index){if(quizLocked)return;quizLocked=true;const q=selectedQuestions[currentQuizIndex];const buttons=[...$('quiz-options').children];buttons.forEach(b=>b.disabled=true);if(index===q.answer){quizScore++;buttons[index].classList.add('correct');setStatus('quiz-feedback','✔ Chính xác!','success');}else{buttons[index].classList.add('wrong');buttons[q.answer].classList.add('correct');setStatus('quiz-feedback','✖ Chưa chính xác.','error');}currentQuizIndex++;delay(loadQuizQuestion,850);}
-  // GAME 3 — chỉ chấp nhận một cú khóa cho mỗi lượt (tránh cộng điểm trùng).
+  
   let g3Start=0,g3Pos=0,g3Round=1,g3Total=0,g3Locked=false,g3Active=false;
   function initGame3(){g3Round=1;g3Total=0;startG3Loop();}
   function startG3Loop(){g3Locked=false;g3Active=true;g3Start=performance.now();$('btn-lock-g3').disabled=false;$('g3-round').textContent='Lượt: '+g3Round+'/3';every(()=>{const cycle=((performance.now()-g3Start)/15*4)%190;g3Pos=cycle<=95?cycle:190-cycle;$('g3-pointer').style.left=g3Pos+'%';},20);}
   function lockGame3(){if(!g3Active||g3Locked)return;g3Locked=true;g3Active=false;$('btn-lock-g3').disabled=true;clearGameTimers();const score=Math.max(10,Math.round(100-Math.abs(g3Pos-48)*2.2));g3Total+=score;if(g3Round<3){g3Round++;delay(startG3Loop,600);}else{const total=Math.round(g3Total/3);finishGame('3. Mắt Thần Võ Sĩ',total,total+'/100đ');}}
-  // GAME 4 — chỉ tính cú bấm trong thời gian 5 giây.
+  
   let g4Count=0,g4End=0,g4Active=false;
   function initGame4(){g4Count=0;g4Active=true;g4End=performance.now()+5000;$('g4-count').textContent='0';$('g4-timer').textContent='Thời gian: 5s';$('g4-bar').style.width='0%';$('btn-hit-g4').disabled=false;every(()=>{const remain=Math.max(0,g4End-performance.now());$('g4-timer').textContent='Thời gian: '+Math.ceil(remain/1000)+'s';if(remain<=0){g4Active=false;$('btn-hit-g4').disabled=true;clearGameTimers();const score=Math.min(100,Math.round(g4Count/25*100));finishGame('4. Cuồng Phong Đấm',score,score+'/100đ ('+g4Count+' cú)');}},80);}
   function hitGame4(){if(!g4Active||performance.now()>=g4End)return;g4Count++;$('g4-count').textContent=String(g4Count);$('g4-bar').style.width=Math.min(100,g4Count/25*100)+'%';}
-  // GAME 5 — cộng thời gian an toàn theo milliseconds thực tế (không lệ thuộc FPS).
+  
   let g5Pos=50,g5End=0,g5Last=0,g5SafeMs=0,g5Active=false;
   function initGame5(){g5Pos=50;g5SafeMs=0;g5Active=true;g5Last=performance.now();g5End=g5Last+8000;$('g5-ball').style.left='50%';$('g5-timer').textContent='Thời gian: 8s';every(()=>{const now=performance.now();const elapsed=Math.max(0,Math.min(now,g5End)-g5Last);if(g5Pos>=33&&g5Pos<=66)g5SafeMs+=elapsed;g5Last=Math.min(now,g5End);g5Pos=Math.max(5,Math.min(95,g5Pos+(Math.random()-.5)*7));$('g5-ball').style.left=g5Pos+'%';$('g5-timer').textContent='Thời gian: '+Math.ceil(Math.max(0,g5End-now)/1000)+'s';if(now>=g5End){g5Active=false;clearGameTimers();const score=Math.min(100,Math.round(g5SafeMs/8000*100));finishGame('5. Thượng Võ Cân Bằng',score,score+'/100đ');}},100);}
   function moveG5(delta){if(!g5Active||performance.now()>=g5End)return;g5Pos=Math.max(5,Math.min(95,g5Pos+delta));$('g5-ball').style.left=g5Pos+'%';}
+  
   function addScoreLine(label,value,className=''){const row=document.createElement('div');row.className='scoreline '+className;const left=document.createElement('span');left.textContent=label;const right=document.createElement('strong');right.textContent=value;row.append(left,right);$('result-details').append(row);}
-  function showFinalResults(){showScreen('result');$('result-details').replaceChildren();const total=gameResults.reduce((sum,item)=>sum+item.score,0);const allPassed=gameResults.length===2&&gameResults.every(x=>x.isPass);gameResults.forEach(x=>addScoreLine(x.name,x.text));addScoreLine('Tổng điểm (2 vòng)',total+'/200 điểm','total');addScoreLine('Trạng thái Passport',allPassed?'✔ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU':'✖ CHƯA ĐẠT YÊU CẦU');$('qr-section').classList.toggle('hidden',!allPassed);$('passport-note').textContent=allPassed?'Chúc mừng! Quét QR để khám phá và đăng ký CLB.':'Mỗi game cần ít nhất 60 điểm để đạt Passport. Bạn có thể thử lại.';saveScoreToCloud();}
+
+  // --- HÀM XỬ LÝ KIỂM TRA QUÀ TẶNG ---
+  function calculateGifts(){
+    const getScore = (id) => {
+      const res = gameResults.find(r => r.name.startsWith(id + '.'));
+      return res ? res.score : -1;
+    };
+    
+    const gifts = [];
+    const score1 = getScore(1);
+    const score2 = getScore(2);
+    const score3 = getScore(3);
+    const score4 = getScore(4);
+    const score5 = getScore(5);
+
+    // 1. Một móc khóa khi đạt điểm tuyệt đối ở trò thứ 2 và 3
+    if (score2 === 100 && score3 === 100) {
+      gifts.push({ title: '🔑 Móc khóa Vovinam', desc: 'Đạt điểm tuyệt đối (100đ) ở trò 2 và trò 3!' });
+    }
+
+    // 2. Bì bánh khi đạt điểm tốt ở trò 3 và các trò 1, 4, 5 (Điểm tốt: >= 80 điểm)
+    const goodOther = [score1, score4, score5].some(s => s >= 80);
+    if (score3 >= 80 && goodOther) {
+      gifts.push({ title: '🥠 Bì bánh đặc biệt', desc: 'Đạt điểm tốt (≥80đ) ở trò 3 và trò 1/4/5!' });
+    }
+
+    // 3. Kẹo khi đạt điểm hoàn thành ở các trò khác ngoại trừ 3 (Điểm hoàn thành: >= 60 điểm)
+    const passedOthers = [score1, score2, score4, score5].some(s => s >= 60);
+    if (passedOthers) {
+      gifts.push({ title: '🍬 Kẹo thưởng năng lượng', desc: 'Đạt điểm hoàn thành (≥60đ) ở các trò khác ngoại trừ trò 3!' });
+    }
+
+    return gifts;
+  }
+
+  function showFinalResults(){
+    showScreen('result');
+    $('result-details').replaceChildren();
+    const total=gameResults.reduce((sum,item)=>sum+item.score,0);
+    const allPassed=gameResults.length===2&&gameResults.every(x=>x.isPass);
+    gameResults.forEach(x=>addScoreLine(x.name,x.text));
+    addScoreLine('Tổng điểm (2 vòng)',total+'/200 điểm','total');
+    addScoreLine('Trạng thái Passport',allPassed?'✔ ĐỦ ĐIỀU KIỆN ĐÓNG DẤU':'✖ CHƯA ĐẠT YÊU CẦU');
+    
+    // Hiển thị danh sách quà tặng nhận được
+    const giftListEl = $('gift-list');
+    giftListEl.replaceChildren();
+    const gifts = calculateGifts();
+    if(gifts.length > 0) {
+      $('gift-section').classList.remove('hidden');
+      gifts.forEach(g => {
+        const item = document.createElement('div');
+        item.style.display = 'flex';
+        item.style.justifyContent = 'space-between';
+        item.style.alignItems = 'center';
+        item.style.padding = '6px 8px';
+        item.style.background = '#071527';
+        item.style.borderRadius = '8px';
+        item.style.border = '1px solid #284768';
+        
+        const left = document.createElement('span');
+        left.innerHTML = `<strong>${g.title}</strong>`;
+        const right = document.createElement('span');
+        right.style.color = '#b5c6dc';
+        right.style.fontSize = '11px';
+        right.textContent = g.desc;
+        
+        item.append(left, right);
+        giftListEl.append(item);
+      });
+    } else {
+      $('gift-section').classList.remove('hidden');
+      const item = document.createElement('div');
+      item.style.color = '#9eb0c6';
+      item.style.fontStyle = 'italic';
+      item.style.textAlign = 'center';
+      item.textContent = 'Chưa đạt mốc nhận quà nào trong lượt chơi này. Hãy thử lại nhé!';
+      giftListEl.append(item);
+    }
+
+    $('qr-section').classList.toggle('hidden',!allPassed);
+    $('passport-note').textContent=allPassed?'Chúc mừng! Quét QR để khám phá và đăng ký CLB.':'Mỗi game cần ít nhất 60 điểm để đạt Passport. Bạn có thể thử lại.';
+    saveScoreToCloud();
+  }
+
   function currentPayload(){return {name:playerName,score:gameResults.reduce((sum,x)=>sum+x.score,0),time:new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}),timestamp:Date.now()};}
-  // PUT một ID duy nhất mỗi lượt: tránh duplicate nếu mạng đứt giữa chừng.
+  
   let pendingPayload=null;
   async function saveScoreToCloud(){if(saved||saving||!runId)return;saving=true;$('btn-retry-save').classList.add('hidden');setStatus('save-status','⏳ Đang lưu điểm lên BXH online...');if(!pendingPayload)pendingPayload=currentPayload();const url=FIREBASE_DB_URL+'/'+encodeURIComponent(runId)+'.json';
     try{await requestJSON(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(pendingPayload)},12000);saved=true;setStatus('save-status','✔ Đã lưu điểm lên Firebase thành công!','success');}
-    catch(error){let confirmed=false;try{const existing=await requestJSON(url,{},7000);confirmed=!!existing&&existing.name===pendingPayload.name&&existing.score===pendingPayload.score;}catch(_){/* Không thể xác minh lượt lưu trước */}
+    catch(error){let confirmed=false;try{const existing=await requestJSON(url,{},7000);confirmed=!!existing&&existing.name===pendingPayload.name&&existing.score===pendingPayload.score;}catch(_){}
       if(confirmed){saved=true;setStatus('save-status','✔ Điểm đã có trên Firebase!','success');}
       else{setStatus('save-status','✖ Chưa xác nhận lưu điểm: '+error.message,'error');$('btn-retry-save').classList.remove('hidden');}}
     finally{saving=false;}
@@ -199,7 +288,7 @@
   }
   function showLeaderboardModal(){$('leaderboard-modal').classList.remove('hidden');$('btn-close-board').focus();fetchLeaderboardFromCloud();clearInterval(boardInterval);boardInterval=setInterval(fetchLeaderboardFromCloud,BOARD_REFRESH_MS);}
   function closeLeaderboardModal(){clearInterval(boardInterval);boardInterval=null;boardRequestId++;$('leaderboard-modal').classList.add('hidden');}
-  // Event handlers đặt tập trung; không để lộ thao tác xóa cloud hay mật khẩu trong client.
+  
   $('btn-enter').addEventListener('click',submitPlayerName);
   $('player-name-input').addEventListener('keydown',event=>{if(event.key==='Enter')submitPlayerName();});
   $('challenge-list').addEventListener('click',event=>{const button=event.target.closest('[data-game]');if(button)toggleGameSelect(Number(button.dataset.game));});
