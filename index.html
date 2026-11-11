@@ -174,7 +174,7 @@
   let g3Start=0,g3Pos=0,g3Round=1,g3Total=0,g3Locked=false,g3Active=false;
   function initGame3(){g3Round=1;g3Total=0;startG3Loop();}
   function startG3Loop(){g3Locked=false;g3Active=true;g3Start=performance.now();$('btn-lock-g3').disabled=false;$('g3-round').textContent='Lượt: '+g3Round+'/3';every(()=>{const cycle=((performance.now()-g3Start)/15*4)%190;g3Pos=cycle<=95?cycle:190-cycle;$('g3-pointer').style.left=g3Pos+'%';},20);}
-  function lockGame3(){if(!g3Active||g3Locked)return;g3Locked=true;g3Active=false;$('btn-lock-g3').disabled=true;clearGameTimers();const score=Math.max(10,Math.round(100-Math.abs(g3Pos-48)*2.2));g3Total+=score;if(g3Round<3){g3Round++;delay(startG3Loop,600);}else{const total=Math.round(g3Total/3);finishGame('3. Mắt Thần Võ Sĩ',total,total+'/100đ');}}
+  function lockGame3(){if(!g3Active||g3Locked)return;g3Locked=true;g3Active=false;$('btn-lock-g3').disabled=true;clearGameTimers();const score=Math.max(10,Math.round(100-Math.abs(g3Pos-48)*2.2));g3Total+=score;if(g3Round<3){g3Round++;delay(startG3Loop,600);}else{const total=Math.round(g3Total/3);finishGame('3. Mắt Thần Võ SĨ',total,total+'/100đ');}}
   
   let g4Count=0,g4End=0,g4Active=false;
   function initGame4(){g4Count=0;g4Active=true;g4End=performance.now()+5000;$('g4-count').textContent='0';$('g4-timer').textContent='Thời gian: 5s';$('g4-bar').style.width='0%';$('btn-hit-g4').disabled=false;every(()=>{const remain=Math.max(0,g4End-performance.now());$('g4-timer').textContent='Thời gian: '+Math.ceil(remain/1000)+'s';if(remain<=0){g4Active=false;$('btn-hit-g4').disabled=true;clearGameTimers();const score=Math.min(100,Math.round(g4Count/25*100));finishGame('4. Cuồng Phong Đấm',score,score+'/100đ ('+g4Count+' cú)');}},80);}
@@ -186,7 +186,7 @@
   
   function addScoreLine(label,value,className=''){const row=document.createElement('div');row.className='scoreline '+className;const left=document.createElement('span');left.textContent=label;const right=document.createElement('strong');right.textContent=value;row.append(left,right);$('result-details').append(row);}
 
-  // --- HÀM XỬ LÝ KIỂM TRA QUÀ TẶNG ---
+  // --- LOGIC KIỂM TRA QUÀ TẶNG MỚI ĐÃ CHỈNH SỬA ---
   function calculateGifts(){
     const getScore = (id) => {
       const res = gameResults.find(r => r.name.startsWith(id + '.'));
@@ -200,18 +200,19 @@
     const score4 = getScore(4);
     const score5 = getScore(5);
 
-    // 1. Một móc khóa khi đạt điểm tuyệt đối ở trò thứ 2 và 3
+    // 1. Một móc khóa khi đạt điểm tuyệt đối (100đ) ở trò 2 và trò 3
     if (score2 === 100 && score3 === 100) {
-      gifts.push({ title: '🔑 Móc khóa Vovinam', desc: 'Đạt điểm tuyệt đối (100đ) ở trò 2 và trò 3!' });
+      gifts.push({ title: '🔑 Móc khóa Vovinam', desc: 'Đạt 100đ tuyệt đối ở trò 2 và trò 3!' });
     }
 
-    // 2. Bì bánh khi đạt điểm tốt ở trò 3 và các trò 1, 4, 5 (Điểm tốt: >= 80 điểm)
-    const goodOther = [score1, score4, score5].some(s => s >= 80);
-    if (score3 >= 80 && goodOther) {
-      gifts.push({ title: '🥠 Bì bánh đặc biệt', desc: 'Đạt điểm tốt (≥80đ) ở trò 3 và trò 1/4/5!' });
+    // 2. Bì bánh khi đạt mốc 2/3 lượt ở trò 3 (≥67đ) HOẶC điểm tốt ở trò 1/4/5 (≥80đ)
+    const passed2of3InGame3 = score3 >= 67; // Mốc 2/3 lượt trò 3 (~67đ trở lên)
+    const goodOtherGames = [score1, score4, score5].some(s => s >= 80);
+    if (passed2of3InGame3 || goodOtherGames) {
+      gifts.push({ title: '🥠 Bì bánh đặc biệt', desc: passed2of3InGame3 ? 'Đạt mốc 2/3 lượt ở trò 3!' : 'Đạt điểm tốt (≥80đ) ở trò 1, 4 hoặc 5!' });
     }
 
-    // 3. Kẹo khi đạt điểm hoàn thành ở các trò khác ngoại trừ 3 (Điểm hoàn thành: >= 60 điểm)
+    // 3. Kẹo khi đạt điểm hoàn thành (≥60đ) ở các trò khác ngoại trừ trò 3
     const passedOthers = [score1, score2, score4, score5].some(s => s >= 60);
     if (passedOthers) {
       gifts.push({ title: '🍬 Kẹo thưởng năng lượng', desc: 'Đạt điểm hoàn thành (≥60đ) ở các trò khác ngoại trừ trò 3!' });
